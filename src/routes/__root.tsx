@@ -133,7 +133,7 @@ function RootComponent() {
       <OpeningIntro />
       <div className="min-h-screen flex flex-col bg-background text-foreground">
         <SiteNav />
-        <main className="flex-1 pt-24 md:pt-28">
+        <main className="flex-1 pt-20 md:pt-24">
           <Outlet />
         </main>
         <SiteFooter />
