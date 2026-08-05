@@ -254,7 +254,7 @@ function ExplorePage() {
   return (
     <>
       {/* HEADER HERO */}
-      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-10 md:pb-14 px-6 lg:px-16 max-w-[1600px] mx-auto">
+      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-10 md:pb-14 px-6 lg:px-16 max-w-7xl mx-auto">
         <div className="absolute top-0 left-1/3 w-[450px] h-[450px] bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),_transparent_70%)] pointer-events-none blur-3xl" />
 
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 relative z-10">
@@ -350,7 +350,7 @@ function ExplorePage() {
       </section>
 
       {/* MENU SECTIONS (min-h-[60vh] prevents layout collapse jumpiness) */}
-      <section className="min-h-[60vh] pb-20 md:pb-24 px-6 lg:px-16 max-w-[1600px] mx-auto">
+      <section className="min-h-[60vh] pb-20 md:pb-24 px-6 lg:px-16 max-w-7xl mx-auto">
         {filteredMenu.length === 0 ? (
           <div className="text-center py-20 bg-[#111116] border border-white/10 rounded-2xl p-8">
             <h3 className="text-2xl font-display mb-2">No dishes matching "{searchQuery}"</h3>
@@ -423,7 +423,7 @@ function ExplorePage() {
       {/* ORDER STRIP */}
       <section className="bg-[#070709] border-t border-white/10 text-foreground py-20 px-6 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.06),_transparent_70%)] pointer-events-none" />
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
           <div>
             <h3 className="text-2xl md:text-3xl font-display mb-1">Hungry now?</h3>
             <p className="text-sm text-muted-foreground">Takeaway, delivery, and drive-through available all day in Hosur.</p>

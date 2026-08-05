@@ -39,7 +39,7 @@ function HomePage() {
 
       {/* SIGNATURE DISHES */}
       <section className="bg-[#070709] border-y border-white/10 text-foreground py-20 md:py-24 px-6">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
               <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-3 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
@@ -113,7 +113,7 @@ function HomePage() {
       </section>
 
       {/* AMBIANCE & STORY SHOWCASE */}
-      <section className="py-20 md:py-24 px-6 lg:px-16 max-w-[1600px] mx-auto">
+      <section className="py-20 md:py-24 px-6 lg:px-16 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 relative">
             <div className="aspect-[4/5] sm:aspect-[4/3] max-h-[520px] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
@@ -153,7 +153,7 @@ function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-28 px-6 lg:px-16 max-w-[1600px] mx-auto text-center relative">
+      <section className="py-28 px-6 lg:px-16 max-w-7xl mx-auto text-center relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.06),_transparent_70%)] pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-display mb-6 leading-tight text-balance">

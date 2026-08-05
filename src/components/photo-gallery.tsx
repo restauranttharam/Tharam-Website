@@ -46,7 +46,7 @@ export function PhotoGallery() {
   const filteredPhotos = filter === "All" ? photos : photos.filter((p) => p.category === filter);
 
   return (
-    <section className="py-20 md:py-28 px-6 lg:px-16 max-w-[1600px] mx-auto">
+    <section className="py-20 md:py-28 px-6 lg:px-16 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
         <div>
           <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-3 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">

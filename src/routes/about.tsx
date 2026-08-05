@@ -61,7 +61,7 @@ function AboutPage() {
       </section>
 
       {/* Split story */}
-      <section className="px-6 lg:px-16 max-w-[1600px] mx-auto">
+      <section className="px-6 lg:px-16 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="aspect-[4/3] max-h-[460px] overflow-hidden rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
             <img
@@ -94,7 +94,7 @@ function AboutPage() {
       </section>
 
       {/* Amenities grid */}
-      <section className="py-20 md:py-24 px-6 lg:px-16 max-w-[1600px] mx-auto">
+      <section className="py-20 md:py-24 px-6 lg:px-16 max-w-7xl mx-auto">
         <div className="mb-10 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
             <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-3 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
@@ -135,7 +135,7 @@ function AboutPage() {
 
       {/* Visit */}
       <section className="bg-[#070709] border-t border-white/10 text-foreground py-20 md:py-24 px-6">
-        <div className="max-w-[1600px] mx-auto px-6 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-4 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
               Visit us

@@ -107,7 +107,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
       </div>
 
       {/* 2. MAIN CONTENT BELOW THE VIDEO */}
-      <section className="relative z-10 max-w-[1600px] w-full mx-auto px-6 lg:px-16 py-12 md:py-16">
+      <section className="relative z-10 max-w-7xl w-full mx-auto px-6 lg:px-16 py-12 md:py-16">
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
           {/* Left Text Column */}
           <div className="lg:col-span-7 animate-reveal">

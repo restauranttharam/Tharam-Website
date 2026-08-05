@@ -1,7 +1,7 @@
 export function SiteFooter() {
   return (
     <footer className="bg-[#050507] text-foreground border-t border-white/10 pt-20 pb-10 mt-auto">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16">
         <div className="grid md:grid-cols-3 gap-12 mb-16">
           <div>
             <h3 className="font-mono text-[0.68rem] uppercase tracking-widest text-primary mb-4 drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]">
