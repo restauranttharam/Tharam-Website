@@ -61,11 +61,11 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
 
         {/* CENTERED OVERLAY TITLE: QUALITY SPEAKS THARAM */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none text-center px-4 sm:px-6">
-          <div className="relative flex flex-col items-center max-w-4xl mx-auto animate-reveal">
+          <div className="relative flex flex-col items-center max-w-2xl mx-auto animate-reveal">
             {/* Top Tagline Pill */}
-            <div className="mb-3 sm:mb-4 inline-flex items-center gap-2.5 bg-black/50 border border-emerald-500/35 px-4 py-1.5 rounded-full backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[0.7rem] sm:text-xs md:text-sm font-mono uppercase tracking-[0.2em] text-emerald-300 font-bold">
+            <div className="mb-2 sm:mb-3 inline-flex items-center gap-2 bg-black/50 border border-emerald-500/35 px-3 py-1 rounded-full backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[0.62rem] sm:text-[0.68rem] md:text-xs font-mono uppercase tracking-[0.18em] text-emerald-300 font-bold">
                 Hosur's Premier Pure Veg Restaurant
               </span>
             </div>
@@ -73,41 +73,41 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             {/* Main Centered Stylized Header */}
             <h1
               style={{ fontFamily: 'var(--font-hero-sans)' }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase tracking-[0.06em] leading-tight text-white drop-shadow-[0_8px_25px_rgba(0,0,0,0.9)]"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold uppercase tracking-[0.08em] leading-tight text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.9)]"
             >
               <span className="bg-gradient-to-r from-white via-zinc-100 to-emerald-100 bg-clip-text text-transparent block sm:inline">
                 QUALITY SPEAKS{" "}
               </span>
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(16,185,129,0.75)] block sm:inline mt-1 sm:mt-0">
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(16,185,129,0.75)] block sm:inline mt-0.5 sm:mt-0">
                 THARAM
               </span>
             </h1>
 
             {/* Decorative Divider */}
-            <div className="flex items-center gap-3 my-3 sm:my-4 w-full max-w-xs sm:max-w-sm">
+            <div className="flex items-center gap-2.5 my-2 sm:my-2.5 w-full max-w-[180px] sm:max-w-[240px]">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
-              <span className="text-emerald-400 text-xs sm:text-sm font-mono">✦</span>
+              <span className="text-emerald-400 text-[0.65rem] sm:text-xs font-mono">✦</span>
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
             </div>
 
             {/* Subtext */}
-            <p className="text-xs sm:text-sm md:text-base font-mono uppercase tracking-[0.18em] text-white/90 font-medium max-w-lg drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+            <p className="text-[0.65rem] sm:text-xs md:text-sm font-mono uppercase tracking-[0.15em] text-white/90 font-medium max-w-md drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               The Art of Authentic South Indian Culinary Tradition
             </p>
           </div>
         </div>
 
         {/* Ambient Overlay Title Banner */}
-        <div className="absolute bottom-6 left-6 md:bottom-10 md:left-16 z-10 flex items-center gap-3 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/15">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-300">
+        <div className="absolute bottom-4 left-4 md:bottom-6 md:left-8 z-10 flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-white/15">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[0.62rem] sm:text-xs font-mono font-bold uppercase tracking-wider text-emerald-300">
             Tharam Dining Ambience • Hosur
           </span>
         </div>
       </div>
 
       {/* 2. MAIN CONTENT BELOW THE VIDEO */}
-      <section className="relative z-10 max-w-7xl w-full mx-auto px-6 lg:px-16 py-12 md:py-16">
+      <section className="relative z-10 max-w-6xl w-full mx-auto px-4 sm:px-6 md:px-8 py-10 md:py-14">
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
           {/* Left Text Column */}
           <div className="lg:col-span-7 animate-reveal">
@@ -128,7 +128,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display leading-[1.03] text-balance mb-6 text-white">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display leading-[1.05] text-balance mb-5 text-white">
               The ritual of{" "}
               <i className="font-normal not-italic bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-300 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(16,185,129,0.5)]">
                 authentic
@@ -137,7 +137,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             </h1>
 
             {/* Paragraph Description */}
-            <p className="max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
+            <p className="max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed mb-6">
               Step into a cozy, modern dining experience. Freshly ground spices, sizzling ghee roasts,
               and steaming brass tumbler coffee crafted from dawn to night in Hosur.
             </p>

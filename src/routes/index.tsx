@@ -38,14 +38,14 @@ function HomePage() {
       <HeroVideoSection highlights={highlights} />
 
       {/* SIGNATURE DISHES */}
-      <section className="bg-[#070709] border-y border-white/10 text-foreground py-20 md:py-24 px-6">
-        <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <section className="bg-[#070709] border-y border-white/10 text-foreground py-14 md:py-18 px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
             <div>
-              <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-3 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
+              <span className="text-primary font-mono text-[0.68rem] uppercase tracking-[0.3em] mb-2 block drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
                 What we're known for
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display italic">Signature plates.</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display italic">Signature plates.</h2>
             </div>
             <Link
               to="/explore"
@@ -55,7 +55,7 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 img: mushroomBiryaniImg,
@@ -85,9 +85,9 @@ function HomePage() {
                 price: "₹120",
               },
             ].map((d) => (
-              <article key={d.name} className="group bg-[#111116] border border-white/10 rounded-xl p-5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between">
+              <article key={d.name} className="group bg-[#111116] border border-white/10 rounded-lg p-4 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between">
                 <div>
-                  <div className="aspect-[4/3] overflow-hidden mb-5 rounded-lg bg-white/5 border border-white/5 relative">
+                  <div className="aspect-[4/3] overflow-hidden mb-4 rounded-md bg-white/5 border border-white/5 relative">
                     <img
                       src={d.img}
                       alt={d.name}
@@ -95,16 +95,16 @@ function HomePage() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     {d.badge && (
-                      <span className="absolute top-3 left-3 bg-black/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 text-[0.6rem] font-mono uppercase tracking-widest px-2.5 py-1 rounded-sm font-semibold">
+                      <span className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 text-[0.58rem] font-mono uppercase tracking-widest px-2 py-0.5 rounded-sm font-semibold">
                         {d.badge}
                       </span>
                     )}
                   </div>
-                  <div className="flex justify-between items-baseline mb-2">
-                    <h3 className="text-lg font-display group-hover:text-primary transition-colors">{d.name}</h3>
-                    <span className="font-mono text-sm text-primary font-bold">{d.price}</span>
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <h3 className="text-base font-display group-hover:text-primary transition-colors">{d.name}</h3>
+                    <span className="font-mono text-xs sm:text-sm text-primary font-bold">{d.price}</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
                 </div>
               </article>
             ))}
@@ -113,7 +113,7 @@ function HomePage() {
       </section>
 
       {/* AMBIANCE & STORY SHOWCASE */}
-      <section className="py-20 md:py-24 px-6 lg:px-16 max-w-7xl mx-auto">
+      <section className="py-14 md:py-18 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 relative">
             <div className="aspect-[4/5] sm:aspect-[4/3] max-h-[520px] overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
@@ -153,7 +153,7 @@ function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-28 px-6 lg:px-16 max-w-7xl mx-auto text-center relative">
+      <section className="py-28 px-6 lg:px-16 max-w-6xl mx-auto text-center relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.06),_transparent_70%)] pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-display mb-6 leading-tight text-balance">

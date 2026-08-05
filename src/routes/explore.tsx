@@ -254,7 +254,7 @@ function ExplorePage() {
   return (
     <>
       {/* HEADER HERO */}
-      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-10 md:pb-14 px-6 lg:px-16 max-w-7xl mx-auto">
+      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-10 md:pb-14 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
         <div className="absolute top-0 left-1/3 w-[450px] h-[450px] bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),_transparent_70%)] pointer-events-none blur-3xl" />
 
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 relative z-10">
@@ -263,10 +263,10 @@ function ExplorePage() {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               100% Pure Vegetarian Kitchen
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display italic leading-[1.02] mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display italic leading-[1.05] mb-3">
               Our Menu.
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               Handcrafted recipes passed down through generations. Prepared daily with cold-pressed oils, RO water, and zero artificial preservatives.
             </p>
           </div>
@@ -350,7 +350,7 @@ function ExplorePage() {
       </section>
 
       {/* MENU SECTIONS (min-h-[60vh] prevents layout collapse jumpiness) */}
-      <section className="min-h-[60vh] pb-20 md:pb-24 px-6 lg:px-16 max-w-7xl mx-auto">
+      <section className="min-h-[60vh] pb-20 md:pb-24 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
         {filteredMenu.length === 0 ? (
           <div className="text-center py-20 bg-[#111116] border border-white/10 rounded-2xl p-8">
             <h3 className="text-2xl font-display mb-2">No dishes matching "{searchQuery}"</h3>
@@ -389,16 +389,16 @@ function ExplorePage() {
                     {section.items.map((item) => (
                       <div
                         key={item.name}
-                        className="bg-[#111116] border border-white/10 p-5 rounded-xl hover:border-primary/40 transition-all flex flex-col justify-between group hover:shadow-[0_10px_25px_rgba(0,0,0,0.4)]"
+                        className="bg-[#111116] border border-white/10 p-4 rounded-lg hover:border-primary/40 transition-all flex flex-col justify-between group hover:shadow-[0_10px_25px_rgba(0,0,0,0.4)]"
                       >
                         <div>
-                          <div className="flex justify-between items-start gap-3 mb-2">
-                            <h3 className="text-base sm:text-lg font-display group-hover:text-primary transition-colors font-medium">
+                          <div className="flex justify-between items-start gap-3 mb-1.5">
+                            <h3 className="text-sm sm:text-base font-display group-hover:text-primary transition-colors font-medium">
                               {item.name}
                             </h3>
-                            <span className="font-mono text-sm shrink-0 text-primary font-bold">{item.price}</span>
+                            <span className="font-mono text-xs sm:text-sm shrink-0 text-primary font-bold">{item.price}</span>
                           </div>
-                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-3">{item.desc}</p>
+                          <p className="text-xs text-muted-foreground leading-relaxed mb-2.5">{item.desc}</p>
                         </div>
                         {item.tag && (
                           <div>
@@ -423,7 +423,7 @@ function ExplorePage() {
       {/* ORDER STRIP */}
       <section className="bg-[#070709] border-t border-white/10 text-foreground py-20 px-6 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.06),_transparent_70%)] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 lg:px-16 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
           <div>
             <h3 className="text-2xl md:text-3xl font-display mb-1">Hungry now?</h3>
             <p className="text-sm text-muted-foreground">Takeaway, delivery, and drive-through available all day in Hosur.</p>

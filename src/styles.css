@@ -138,6 +138,22 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    font-size: 14.5px;
+  }
+  @media (min-width: 768px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  @media (min-width: 1024px) {
+    html {
+      font-size: 15.5px;
+    }
+  }
+
   * {
     border-color: var(--color-border);
   }
