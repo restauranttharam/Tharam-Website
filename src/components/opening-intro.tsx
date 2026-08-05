@@ -9,7 +9,7 @@ export function Preloader() {
       setStage("tagline");
     }, 100);
 
-    // Stage 2: Split tagline and reveal "· THARAM ·" in the center (faster response)
+    // Stage 2: Split tagline and reveal "THARAM" in the center (faster response)
     const splitTimeout = setTimeout(() => {
       setStage("split");
     }, 900);
@@ -39,14 +39,12 @@ export function Preloader() {
       style={{
         opacity: stage === "exit" ? 0 : 1,
       }}
-      className={`fixed inset-0 z-[9999] bg-[#0d0d10] flex items-center justify-center transition-opacity duration-[600ms] ease-out will-change-opacity ${
-        stage === "exit" ? "pointer-events-none" : ""
-      }`}
+      className={`fixed inset-0 z-[9999] bg-[#0d0d10] flex items-center justify-center transition-opacity duration-[600ms] ease-out will-change-opacity ${stage === "exit" ? "pointer-events-none" : ""
+        }`}
     >
       <div
-        className={`flex items-center justify-center gap-2 sm:gap-3 md:gap-4 select-none transition-opacity duration-500 ${
-          stage === "hidden" ? "opacity-0" : "opacity-100"
-        }`}
+        className={`flex items-center justify-center gap-2 sm:gap-3 md:gap-4 select-none transition-opacity duration-500 ${stage === "hidden" ? "opacity-0" : "opacity-100"
+          }`}
       >
         {/* QUALITY (Left) - White Text */}
         <div
@@ -79,7 +77,7 @@ export function Preloader() {
           className="overflow-hidden flex items-center justify-center transition-all duration-[700ms] ease-[cubic-bezier(0.85,0,0.15,1)] will-change-transform"
         >
           <span className="font-display text-base sm:text-xl md:text-2xl text-brass font-bold tracking-[0.14em] text-center px-2 sm:px-3 whitespace-nowrap drop-shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-            · THARAM ·
+            THARAM
           </span>
         </div>
 
