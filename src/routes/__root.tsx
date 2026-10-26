@@ -77,19 +77,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tharam Restaurant — Pure Vegetarian South Indian in Hosur" },
+      { title: "Tharam Restaurant — Authentic Non-Veg & South Indian in Hosur" },
       {
         name: "description",
         content:
-          "Pure vegetarian South Indian restaurant on Rayakotta Rd, Hosur. Dine-in, takeaway, delivery & drive-through. Open 6 AM – 10:30 PM.",
+          "Authentic Non-Veg & South Indian restaurant on Rayakotta Rd, Hosur. Biryani, Mutton, Chicken, Seafood & Parotta. Dine-in, takeaway, delivery & drive-through. Open 6 AM – 10:30 PM.",
       },
       {
         property: "og:title",
-        content: "Tharam Restaurant — Pure Vegetarian South Indian in Hosur",
+        content: "Tharam Restaurant — Authentic Non-Veg & South Indian in Hosur",
       },
       {
         property: "og:description",
-        content: "Pure vegetarian South Indian kitchen in Hosur, Tamil Nadu.",
+        content: "Authentic Non-Veg & South Indian kitchen in Hosur, Tamil Nadu.",
       },
 
       { property: "og:type", content: "website" },

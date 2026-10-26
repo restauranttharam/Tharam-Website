@@ -1,8 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import heroThali from "@/assets/premium-hero-thali.png";
-import coffeeImg from "@/assets/filter-coffee.jpg";
-import dosaImg from "@/assets/dosa.jpg";
 
 interface HeroVideoSectionProps {
   highlights: Array<{ label: string; desc: string }>;
@@ -10,7 +7,7 @@ interface HeroVideoSectionProps {
 
 export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [activeTab, setActiveTab] = React.useState<"thali" | "coffee" | "dosa">("thali");
+  const [activeTab, setActiveTab] = React.useState<"biryani" | "chicken" | "parotta">("biryani");
 
   useEffect(() => {
     if (videoRef.current) {
@@ -19,23 +16,23 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
   }, []);
 
   const dishPreviews = {
-    thali: {
-      img: heroThali,
-      title: "Royal South Thali",
-      tag: "Pure Veg Feast",
-      desc: "Served traditional style on banana leaf with 14 varieties of curries, kootu, & payasam."
+    biryani: {
+      img: "/dishes/Tharam Spl Mutton Biryani.png",
+      title: "Tharam Spl Mutton Biryani",
+      tag: "Signature Dum Biryani",
+      desc: "Slow dum-cooked tender mutton with fragrant Seeraga Samba rice, whole spices, served with brinjal dalcha & raita."
     },
-    coffee: {
-      img: coffeeImg,
-      title: "Brass Tumbler Coffee",
-      tag: "Authentic Brew",
-      desc: "Decoction brewed fresh every hour with rich frothy boiled milk and natural jaggery aroma."
+    chicken: {
+      img: "/dishes/Chettinadu Chicken.png",
+      title: "Chettinadu Chicken",
+      tag: "Spicy Bestseller",
+      desc: "Country chicken roasted with crushed Tellicherry black pepper, shallots, and fresh curry leaves."
     },
-    dosa: {
-      img: dosaImg,
-      title: "Ghee Roast Masala Dosa",
-      tag: "Crispy Golden",
-      desc: "Fermented batter crisped in pure cow ghee served with 3 coconut & tomato chutneys."
+    parotta: {
+      img: "/dishes/Vazhai Ilai Mutton Parotta.png",
+      title: "Vazhai Ilai Mutton Parotta",
+      tag: "Banana Leaf Specialty",
+      desc: "Layered flaky parottas wrapped in banana leaf with rich mutton chukka gravy, slow-steamed to perfection."
     }
   };
 
@@ -49,7 +46,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
           loop
           muted
           playsInline
-          poster={heroThali}
+          poster="/dishes/Tharam Spl Mutton Biryani.png"
           className="w-full h-full object-cover brightness-[1.12] contrast-[1.05] saturate-[1.08] scale-[1.01]"
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
@@ -66,7 +63,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             <div className="mb-2 sm:mb-3 inline-flex items-center gap-2 bg-black/50 border border-emerald-500/35 px-3 py-1 rounded-full backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-[0.62rem] sm:text-[0.68rem] md:text-xs font-mono uppercase tracking-[0.18em] text-emerald-300 font-bold">
-                Hosur's Premier Pure Veg Restaurant
+                Hosur's Premier Non-Veg Kitchen
               </span>
             </div>
 
@@ -92,7 +89,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
 
             {/* Subtext */}
             <p className="text-[0.65rem] sm:text-xs md:text-sm font-mono uppercase tracking-[0.15em] text-white/90 font-medium max-w-md drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-              The Art of Authentic South Indian Culinary Tradition
+              The Art of Authentic Chettinad & Non-Veg Culinary Tradition
             </p>
           </div>
         </div>
@@ -115,11 +112,11 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             <div className="mb-5 flex flex-wrap gap-2.5 items-center text-[0.7rem] font-mono uppercase tracking-widest text-muted-foreground">
               <span className="text-emerald-400 font-semibold drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] flex items-center gap-1.5 bg-white/5 px-3 py-1 rounded-full border border-emerald-500/30">
                 <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                Pure Vegetarian
+                Authentic Non-Veg
               </span>
               <span className="text-white/30">•</span>
               <span className="bg-white/5 px-3 py-1 rounded-full border border-white/10 text-white/90">
-                Authentic Heritage
+                Fresh Cuts Daily
               </span>
               <span className="text-white/30">•</span>
               <span className="bg-white/5 px-3 py-1 rounded-full border border-white/10 text-white/90">
@@ -133,13 +130,12 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
               <i className="font-normal not-italic bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-300 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(16,185,129,0.5)]">
                 authentic
               </i>{" "}
-              south indian taste.
+              non-veg & south indian taste.
             </h1>
 
             {/* Paragraph Description */}
             <p className="max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed mb-6">
-              Step into a cozy, modern dining experience. Freshly ground spices, sizzling ghee roasts,
-              and steaming brass tumbler coffee crafted from dawn to night in Hosur.
+              Step into a cozy, modern dining experience. Sizzling pepper chicken, slow-cooked seeraga samba mutton biryani, flaky banana-leaf parottas, and coastal seafood curries served fresh and hot.
             </p>
 
             {/* CTA Buttons */}
@@ -198,7 +194,7 @@ export function HeroVideoSection({ highlights }: HeroVideoSectionProps) {
             <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-[#111116] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.6)] group hover:border-emerald-500/40 transition-all duration-500">
               {/* Dish Selector Tabs */}
               <div className="flex gap-2 mb-3 bg-white/5 p-1 rounded-xl border border-white/10">
-                {(["thali", "coffee", "dosa"] as const).map((tab) => (
+                {(["biryani", "chicken", "parotta"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}

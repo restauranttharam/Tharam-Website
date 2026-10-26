@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroThali from "@/assets/premium-hero-thali.png";
-import plantInteriorImg from "@/assets/plant-interior.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -9,13 +7,13 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Tharam Restaurant in Hosur offers 100% pure vegetarian cuisine, authentic home-style taste, fresh ingredients, and a warm family-friendly ambience.",
+          "Tharam Restaurant in Hosur offers authentic South Indian non-veg cuisine, flavorful dum biryanis, fresh ingredients, and a warm family-friendly ambience.",
       },
-      { property: "og:title", content: "About Tharam Restaurant — Authentic Pure Veg Dining" },
+      { property: "og:title", content: "About Tharam Restaurant — Authentic Non-Veg Dining" },
       {
         property: "og:description",
         content:
-          "Where every meal feels like home. Pure vegetarian dining on Rayakotta Rd, Hosur.",
+          "Where every meal feels like home. Authentic Non-Veg & South Indian dining on Rayakotta Rd, Hosur.",
       },
     ],
   }),
@@ -23,13 +21,13 @@ export const Route = createFileRoute("/about")({
 });
 
 const promises = [
-  { title: "100% Pure Veg", desc: "Pure vegetarian kitchen with zero non-veg contamination." },
-  { title: "Home-Style Taste", desc: "Authentic traditional recipes crafted with warmth." },
-  { title: "Fresh Ingredients", desc: "Cold-pressed oils, hand-pounded spices, daily produce." },
-  { title: "Hygienic Preparation", desc: "Cooked with RO water and pristine safety standards." },
+  { title: "100% Fresh Cuts", desc: "Farm-fresh chicken, tender mutton, and seafood sourced every morning." },
+  { title: "Heritage Dum Recipes", desc: "Traditional slow dum cooking with freshly ground Chettinad spices." },
+  { title: "Natural Ingredients", desc: "Cold-pressed oils, hand-pounded spices, and zero chemical tenderizers." },
+  { title: "Hygienic Preparation", desc: "Cooked with RO water and pristine kitchen safety standards." },
   { title: "Warm Ambience", desc: "Comfortable, family-friendly dining environment." },
   { title: "Courteous Service", desc: "Friendly staff dedicated to exceptional hospitality." },
-  { title: "Memorable Meals", desc: "A cozy dining experience for families and groups." },
+  { title: "Memorable Feasts", desc: "A cozy dining experience for families, friends, and gatherings." },
 ];
 
 const amenities = [
@@ -64,7 +62,7 @@ function AboutPage() {
             <i className="text-primary font-normal not-italic bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-400 bg-clip-text text-transparent">Feels Like Home.</i>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
-            Great food is more than just a meal—it's an experience that brings people together. As a pure vegetarian restaurant, we serve wholesome, freshly prepared dishes capturing the warmth and comfort of home-cooked food.
+            Great food is more than just a meal—it's an experience that brings people together. We serve authentic South Indian non-vegetarian cuisine, featuring fragrant seeraga samba biryanis, fiery Chettinad pepper roasts, and flaky banana leaf parotta feasts capturing the warmth and rich flavour of traditional kitchens.
           </p>
         </div>
       </section>
@@ -74,8 +72,8 @@ function AboutPage() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <div className="aspect-[4/3] max-h-[440px] overflow-hidden rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]">
             <img
-              src={plantInteriorImg}
-              alt="Warm eco-friendly interior dining space at Tharam Restaurant"
+              src="/tharam-dining-ambiance.jpg"
+              alt="Warm and comfortable dining hall ambiance at Tharam Restaurant"
               loading="lazy"
               className="w-full h-full object-cover brightness-95 hover:scale-105 transition-transform duration-700"
             />
@@ -85,10 +83,10 @@ function AboutPage() {
               Our Passion
             </span>
             <h2 className="text-2xl sm:text-3xl font-display mb-4 leading-tight">
-              Authentic taste, carefully selected ingredients & traditional recipes.
+              Authentic taste, carefully selected meats & traditional recipes.
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Our passion is to deliver the authentic taste of homemade cuisine while maintaining the highest standards of quality, hygiene, and freshness. Every dish is prepared with traditional recipes and care, ensuring every bite reminds you of home.
+              Our passion is to deliver the authentic taste of homemade Chettinad and South Indian non-veg cuisine while maintaining the highest standards of quality, hygiene, and freshness. Every biryani and curry is prepared with traditional recipes and care, ensuring every bite reminds you of home.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               We have created a warm, family-friendly atmosphere where guests can relax and enjoy memorable meals whether visiting with family, friends, or colleagues.
@@ -236,8 +234,8 @@ function AboutPage() {
 
           <div className="aspect-[4/3] max-h-[440px] overflow-hidden rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
             <img
-              src={heroThali}
-              alt="A Tharam thali on a banana leaf"
+              src="/dishes/Tharam Spl Mutton Meals.png"
+              alt="Tharam Special Non-Veg Mutton Meals on banana leaf"
               loading="lazy"
               className="w-full h-full object-cover brightness-95 hover:scale-105 transition-transform duration-700"
             />

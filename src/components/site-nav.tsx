@@ -67,7 +67,7 @@ export function SiteNav() {
               <div className="flex justify-between items-center text-primary font-semibold">
                 <span>Hosur, Tamil Nadu</span>
                 <span className="border border-primary/40 px-2 py-0.5 rounded text-[0.62rem] uppercase tracking-widest bg-primary/10">
-                  Pure Veg
+                  Authentic Non-Veg
                 </span>
               </div>
               <a href="tel:06380795502" className="text-white hover:text-primary transition-colors font-mono pt-1">

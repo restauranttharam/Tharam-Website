@@ -1,47 +1,38 @@
 import { useState } from "react";
-import photo01 from "@/assets/photos/photo-01.jpg";
-import photo02 from "@/assets/photos/photo-02.jpg";
-import photo03 from "@/assets/photos/photo-03.jpg";
-import photo04 from "@/assets/photos/photo-04.jpg";
-import photo05 from "@/assets/photos/photo-05.jpg";
-import photo06 from "@/assets/photos/photo-06.jpg";
-import photo07 from "@/assets/photos/photo-07.jpg";
-import photo08 from "@/assets/photos/photo-08.jpg";
-import photo09 from "@/assets/photos/photo-09.jpg";
-import photo10 from "@/assets/photos/photo-10.jpg";
-import photo11 from "@/assets/photos/photo-11.jpg";
-import photo12 from "@/assets/photos/photo-12.jpg";
-import photo13 from "@/assets/photos/photo-13.jpg";
-import photo14 from "@/assets/photos/photo-14.jpg";
-import photo15 from "@/assets/photos/photo-15.jpg";
-import photo16 from "@/assets/photos/photo-16.jpg";
-import photo17 from "@/assets/photos/photo-17.jpg";
 
 export const photos = [
-  { id: 1, src: photo01, title: "Gobi Manchurian / Paneer Chilli", category: "Starters" },
-  { id: 2, src: photo02, title: "Kothu Parotta with Raita & Salna", category: "Parotta" },
-  { id: 3, src: photo03, title: "Seeraga Samba Mushroom Biryani", category: "Biryani & Rice" },
-  { id: 4, src: photo04, title: "Spicy Chilli Kothu Parotta", category: "Parotta" },
-  { id: 5, src: photo05, title: "Fresh Creamy Tomato Soup", category: "Starters" },
-  { id: 6, src: photo06, title: "Ghee Podi Mini Idlis", category: "Tiffin & Dosa" },
-  { id: 7, src: photo07, title: "Crispy Ghee Roast Masala Dosa", category: "Tiffin & Dosa" },
-  { id: 8, src: photo08, title: "Butter Naan & Paneer Masala", category: "Main Course" },
-  { id: 9, src: photo09, title: "Fluffy Poori Masala", category: "Tiffin & Dosa" },
-  { id: 10, src: photo10, title: "South Indian Tiffin Feast Combo", category: "Tiffin & Dosa" },
-  { id: 11, src: photo11, title: "Grand South Indian Pure Veg Thali", category: "Biryani & Rice" },
-  { id: 12, src: photo12, title: "Cream of Mushroom Sweet Corn Soup", category: "Starters" },
-  { id: 13, src: photo13, title: "Baby Corn Manchurian Dry", category: "Starters" },
-  { id: 14, src: photo14, title: "Schezwan Veg Noodles", category: "Main Course" },
-  { id: 15, src: photo15, title: "Paneer & Mushroom Fried Rice", category: "Biryani & Rice" },
-  { id: 16, src: photo16, title: "Crispy Onion Pakoda / Gobi 65", category: "Starters" },
-  { id: 17, src: photo17, title: "Crispy Baby Corn Fry & Rings", category: "Starters" },
+  { id: 1, src: "/dishes/Tharam Spl Mutton Biryani.png", title: "Tharam Spl Mutton Biryani", category: "Biryani & Feast" },
+  { id: 2, src: "/dishes/Tharam Spl Chicken Biryani.png", title: "Tharam Spl Chicken Biryani", category: "Biryani & Feast" },
+  { id: 3, src: "/dishes/Tharam Spl Seafood Meals.png", title: "Tharam Spl Seafood Meals", category: "Biryani & Feast" },
+  { id: 4, src: "/dishes/Tharam Spl Mutton Meals.png", title: "Tharam Spl Mutton Meals", category: "Biryani & Feast" },
+  { id: 5, src: "/dishes/Prawn Biryani.png", title: "Coastal Prawn Biryani", category: "Biryani & Feast" },
+  { id: 6, src: "/dishes/Tandoori Chicken - Full.png", title: "Tandoori Chicken (Full)", category: "Tandoori & Starters" },
+  { id: 7, src: "/dishes/Tandoori Platter (8 Varieties).png", title: "Tandoori Platter (8 Varieties)", category: "Tandoori & Starters" },
+  { id: 8, src: "/dishes/Alfahm Chicken BBQ (Full).png", title: "Alfahm Chicken BBQ", category: "Tandoori & Starters" },
+  { id: 9, src: "/dishes/Chicken Lollipop (5 pcs).png", title: "Crispy Chicken Lollipop", category: "Tandoori & Starters" },
+  { id: 10, src: "/dishes/Kalakki.png", title: "Madurai Street Salna Kalakki", category: "Tandoori & Starters" },
+  { id: 11, src: "/dishes/Chettinadu Chicken.png", title: "Chettinadu Pepper Chicken", category: "Chicken Specials" },
+  { id: 12, src: "/dishes/Chicken Pallipalayam.png", title: "Kongu Chicken Pallipalayam", category: "Chicken Specials" },
+  { id: 13, src: "/dishes/Madurai Spl. Moodi Vacha Chicken.png", title: "Madurai Spl. Moodi Vacha Chicken", category: "Chicken Specials" },
+  { id: 14, src: "/dishes/Chef Spl. Pavalakodi Chicken.png", title: "Chef Spl. Pavalakodi Chicken", category: "Chicken Specials" },
+  { id: 15, src: "/dishes/Chicken 65.png", title: "Tharam Special Chicken 65", category: "Chicken Specials" },
+  { id: 16, src: "/dishes/Vazhai Ilai Mutton Parotta.png", title: "Vazhai Ilai Mutton Parotta", category: "Parotta & Breads" },
+  { id: 17, src: "/dishes/Vazhai Ilai Chicken Parotta.png", title: "Vazhai Ilai Chicken Parotta", category: "Parotta & Breads" },
+  { id: 18, src: "/dishes/Mutton Kothu Parotta.png", title: "Mutton Kothu Parotta", category: "Parotta & Breads" },
+  { id: 19, src: "/dishes/Bun Parotta (2 pcs).png", title: "Madurai Bun Parotta", category: "Parotta & Breads" },
+  { id: 20, src: "/dishes/Garlic Butter Naan.png", title: "Tandoor Garlic Butter Naan", category: "Parotta & Breads" },
+  { id: 21, src: "/dishes/Vanjayam Fish Fry.png", title: "Vanjayam Fish Tawa Fry", category: "Mutton & Seafood" },
+  { id: 22, src: "/dishes/Nethili Fish Fry.png", title: "Crisp Nethili Fish Fry", category: "Mutton & Seafood" },
+  { id: 23, src: "/dishes/Mutton Nalli Chukka.png", title: "Mutton Nalli Bone Marrow Chukka", category: "Mutton & Seafood" },
+  { id: 24, src: "/dishes/Crab Gravy (Nandu Masala).png", title: "Nandu Masala Crab Gravy", category: "Mutton & Seafood" },
+  { id: 25, src: "/dishes/Chettinadu Style Prawn Kulambu.png", title: "Chettinadu Prawn Kulambu", category: "Mutton & Seafood" },
 ];
 
 export function PhotoGallery() {
   const [selected, setSelected] = useState<number | null>(null);
   const [filter, setFilter] = useState<string>("All");
 
-  const categories = ["All", "Tiffin & Dosa", "Parotta", "Biryani & Rice", "Starters", "Main Course"];
+  const categories = ["All", "Biryani & Feast", "Chicken Specials", "Mutton & Seafood", "Parotta & Breads", "Tandoori & Starters"];
 
   const filteredPhotos = filter === "All" ? photos : photos.filter((p) => p.category === filter);
 
@@ -61,11 +52,10 @@ export function PhotoGallery() {
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-4 py-2 font-mono text-[0.7rem] uppercase tracking-widest transition-all rounded-md ${
-                filter === cat
+              className={`px-4 py-2 font-mono text-[0.7rem] uppercase tracking-widest transition-all rounded-md ${filter === cat
                   ? "bg-primary text-black font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)]"
                   : "border border-white/10 bg-white/[0.03] text-muted-foreground hover:border-primary/40 hover:text-primary"
-              }`}
+                }`}
             >
               {cat}
             </button>

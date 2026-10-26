@@ -1,26 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { PhotoGallery } from "@/components/photo-gallery";
-import dosaImg from "@/assets/dosa.jpg";
-import idliImg from "@/assets/idli.jpg";
-import coffeeImg from "@/assets/filter-coffee.jpg";
-import payasamImg from "@/assets/payasam.jpg";
-import mushroomBiryaniImg from "@/assets/mushroom-biryani.jpg";
-import chilliParottaImg from "@/assets/chilli-parotta.jpg";
-import chilliManchurianImg from "@/assets/chilli-manchurian.jpg";
-import kothuParottaImg from "@/assets/kothu-parotta.jpg";
 
 export const Route = createFileRoute("/explore")({
   head: () => ({
     meta: [
-      { title: "Menu — Tharam Restaurant, Pure Veg South Indian in Hosur" },
+      { title: "Menu — Tharam Restaurant, Authentic Non-Veg & South Indian in Hosur" },
       {
         name: "description",
         content:
-          "Explore Tharam's pure vegetarian South Indian menu — tiffin, dosas, parotta, biryani, starters and beverages. Prices ₹30 – ₹180.",
+          "Explore Tharam's authentic non-vegetarian South Indian menu — Seeraga Samba Mutton Biryani, Chettinad Chicken, Kothu Parotta, Seafood and Tandoori.",
       },
       { property: "og:title", content: "Menu — Tharam Restaurant" },
-      { property: "og:description", content: "Authentic South Indian vegetarian menu in Hosur." },
+      { property: "og:description", content: "Authentic South Indian non-veg menu in Hosur." },
     ],
   }),
   component: ExplorePage,
@@ -30,182 +22,429 @@ type Item = { name: string; desc: string; price: string; tag?: string };
 
 const menu: { id: string; title: string; blurb: string; img: string; items: Item[] }[] = [
   {
-    id: "tiffin",
-    title: "Tiffin & Breakfast",
-    blurb: "The dawn ritual — served 6 AM onwards.",
-    img: idliImg,
+    id: "biryani",
+    title: "Biryani & Rice",
+    blurb: "Slow-dum cooked Seeraga Samba biryani & authentic non-veg meals.",
+    img: "/dishes/Tharam Spl Mutton Biryani.png",
     items: [
       {
-        name: "Ghee Podi Idli",
-        desc: "Steamed rice cakes tossed in aromatic gunpowder and clarified butter.",
-        price: "₹65",
+        name: "Tharam Spl Mutton Biryani",
+        desc: "Slow dum-cooked tender mutton with fragrant Seeraga Samba rice, whole spices, served with brinjal dalcha & raita.",
+        price: "₹260",
         tag: "Signature",
       },
       {
-        name: "Idli Sambar (2 pcs)",
-        desc: "Pillowy idlis with drumstick sambar and coconut chutney.",
-        price: "₹45",
-      },
-      {
-        name: "Medhu Vada (2 pcs)",
-        desc: "Crispy lentil doughnuts, peppercorns, curry leaves.",
-        price: "₹40",
-      },
-      { name: "Poori Masala (2 pcs)", desc: "Fluffy wheat poori with spiced potato bhaji.", price: "₹65" },
-      { name: "Rava Kesari", desc: "Warm semolina sweet with cashew and cardamom.", price: "₹35" },
-      { name: "Ghee Pongal", desc: "Creamy rice lentil mash tempered with cumin and cashews.", price: "₹70" },
-    ],
-  },
-  {
-    id: "dosa",
-    title: "Dosa Specialties",
-    blurb: "Batter fermented for 12 hours. Griddled fresh to order.",
-    img: dosaImg,
-    items: [
-      {
-        name: "Ghee Roast Masala Dosa",
-        desc: "Crisp golden crepe folded over spiced potato filling, topped with cow ghee.",
-        price: "₹100",
+        name: "Tharam Spl Chicken Biryani",
+        desc: "Flavor-rich dum biryani made with succulent farm chicken, aromatic seeraga samba rice, and whole spices.",
+        price: "₹190",
         tag: "Bestseller",
       },
       {
-        name: "Mysore Masala Dosa",
-        desc: "Spicy garlic red chutney spread with seasoned potato masala.",
-        price: "₹95",
+        name: "Mutton Chukka Biryani",
+        desc: "Seeraga samba biryani served topped with spicy pan-roasted mutton chukka.",
+        price: "₹270",
+        tag: "Chef Special",
+      },
+      {
+        name: "Naatu Kozhi Biryani",
+        desc: "Traditional country chicken slow-simmered in rich spices and aromatic seeraga samba biryani.",
+        price: "₹230",
+        tag: "Specialty",
+      },
+      {
+        name: "Prawn Biryani",
+        desc: "Fresh ocean prawns cooked with fragrant spices and dum-steamed seeraga samba biryani rice.",
+        price: "₹240",
+        tag: "Seafood",
+      },
+      {
+        name: "Chicken 65 Biryani",
+        desc: "Aromatic dum biryani topped with crispy spiced chicken 65 bites.",
+        price: "₹210",
         tag: "Popular",
       },
       {
-        name: "Ghee Paper Roast Dosa",
-        desc: "Wafer-thin, extra crisp golden crepe finished with pure ghee.",
-        price: "₹110",
+        name: "Egg Biryani",
+        desc: "Aromatic biryani rice served with two golden spiced roasted masala eggs.",
+        price: "₹130",
+      },
+      {
+        name: "Chicken Plain Biryani",
+        desc: "Fragrant seasoned biryani rice (kuska) served with rich chicken salna and onion raita.",
+        price: "₹120",
+      },
+      {
+        name: "Tharam Spl Mutton Meals",
+        desc: "Grand banana leaf feast with steaming ponni rice, rich mutton kulambu, chicken gravy, fish curry, rasam, kootu & appalam.",
+        price: "₹260",
+        tag: "Feast",
+      },
+      {
+        name: "Tharam Spl Chicken Meals",
+        desc: "Full non-veg meals with rice, hearty chicken gravy, fish curry, rasam, poriyal, curd & appalam.",
+        price: "₹200",
+      },
+      {
+        name: "Tharam Spl Seafood Meals",
+        desc: "Authentic coastal meals with rice, tangy fish kulambu, prawn gravy, rasam, curd & appalam.",
+        price: "₹250",
+      },
+    ],
+  },
+  {
+    id: "chicken",
+    title: "Chicken Specials",
+    blurb: "Fiery Chettinad gravies, Kongu Pallipalayam & tava roasted delicacies.",
+    img: "/dishes/Chettinadu Chicken.png",
+    items: [
+      {
+        name: "Chettinadu Chicken",
+        desc: "Country chicken roasted with crushed Tellicherry black pepper, shallots, and fresh curry leaves.",
+        price: "₹190",
+        tag: "Bestseller",
+      },
+      {
+        name: "Chicken Pallipalayam",
+        desc: "Authentic Kongu style chicken tossed with dry red chillies, shallots, and coconut slivers.",
+        price: "₹185",
         tag: "Signature",
       },
       {
-        name: "Podi Onion Dosa",
-        desc: "Spiced lentil powder and roasted shallots pressed into the crepe.",
-        price: "₹85",
+        name: "Chicken Sindhamani - Dry",
+        desc: "Fiery dry chicken sautéed with round red chillies, garlic, and curry leaves.",
+        price: "₹185",
       },
       {
-        name: "Plain Dosa",
-        desc: "The classic thin golden crepe — served with 3 chutneys and sambar.",
-        price: "₹55",
+        name: "Madurai Spl. Moodi Vacha Chicken",
+        desc: "Traditional covered clay-pot style slow-cooked Madurai chicken curry.",
+        price: "₹210",
+        tag: "Madurai Special",
       },
-      { name: "Rava Onion Dosa", desc: "Lacy semolina crepe, roasted cumin, green chilli.", price: "₹90" },
-      { name: "Cheese Butter Masala Dosa", desc: "Melted cheese, butter, and potato filling.", price: "₹120" },
-      { name: "Set Dosa / Kal Dosa (2 pcs)", desc: "Soft spongy dosas served with coconut chutney and sambar.", price: "₹75" },
+      {
+        name: "Chef Spl. Pavalakodi Chicken",
+        desc: "Chef's signature spicy ruby-red chicken tossed with rich home-ground masala.",
+        price: "₹220",
+        tag: "Chef Special",
+      },
+      {
+        name: "Chef Spl. Chicken Maharani",
+        desc: "Royal mild spiced rich cashew and cream based chicken delicacy.",
+        price: "₹230",
+      },
+      {
+        name: "Chicken Pepper Fry",
+        desc: "Spicy pan-fried chicken tossed with freshly cracked black pepper and onions.",
+        price: "₹180",
+        tag: "Spicy",
+      },
+      {
+        name: "Chicken Pichupottathu",
+        desc: "Shredded boneless chicken sautéed with shallots, crushed pepper, and egg.",
+        price: "₹190",
+      },
+      {
+        name: "Chicken 65",
+        desc: "Crispy deep-fried spiced chicken bites marinated in ginger, garlic, and red chilli.",
+        price: "₹150",
+        tag: "Crispy",
+      },
+      {
+        name: "Chicken Lollipop (5 pcs)",
+        desc: "Crispy fried frenched chicken wings served with hot garlic dip.",
+        price: "₹180",
+      },
+      {
+        name: "Butter Chicken Masala",
+        desc: "Tender chicken pieces simmered in a creamy spiced tomato butter makhani gravy.",
+        price: "₹210",
+      },
+      {
+        name: "Kadai Chicken Masala",
+        desc: "Kadai-tossed chicken cooked with bell peppers, onions, and freshly ground kadai spices.",
+        price: "₹200",
+      },
+    ],
+  },
+  {
+    id: "mutton",
+    title: "Mutton Delights",
+    blurb: "Tender bone marrow nalli, chukka fry & traditional village curries.",
+    img: "/dishes/Mutton Nalli Chukka.png",
+    items: [
+      {
+        name: "Mutton Nalli Chukka",
+        desc: "Succulent bone marrow nalli roasted with shallots, Tellicherry pepper, and rustic masala.",
+        price: "₹320",
+        tag: "Must Try",
+      },
+      {
+        name: "Manapatti Mutton Chukka",
+        desc: "Tender boneless mutton slow-roasted with shallots, garlic, and freshly ground country spices.",
+        price: "₹280",
+        tag: "Signature",
+      },
+      {
+        name: "Mutton Boti Pepper Fry",
+        desc: "Traditional spiced lamb intestine tossed with crushed black pepper and shallots.",
+        price: "₹210",
+        tag: "Traditional",
+      },
+      {
+        name: "(Kudal) Boti Kulambu",
+        desc: "Authentic village-style rich gravy cooked with tender boti and country spices.",
+        price: "₹220",
+      },
+      {
+        name: "Mutton Chettinadu Dry",
+        desc: "Dry-roasted tender mutton with roasted coconut, fennel, and rustic Chettinad masala.",
+        price: "₹270",
+      },
+      {
+        name: "Mutton Pepper Fry",
+        desc: "Tender mutton pieces sautéed with crushed Tellicherry black pepper and curry leaves.",
+        price: "₹270",
+      },
+      {
+        name: "Special Madurai Style Mutton Kulambu",
+        desc: "Spicy and tangy traditional Madurai mutton gravy slow-simmered to perfection.",
+        price: "₹260",
+        tag: "Madurai Special",
+      },
+      {
+        name: "Kadai Mutton Masala",
+        desc: "Tender mutton simmered with bell peppers and roasted ground coriander in iron kadai.",
+        price: "₹270",
+      },
+      {
+        name: "Salem Spl. Mutton Crispy Chilli",
+        desc: "Crispy fried seasoned mutton tossed with green chillies and curry leaves.",
+        price: "₹260",
+        tag: "Crispy",
+      },
+      {
+        name: "Mutton Rogan Josh",
+        desc: "Slow-braised tender mutton in an aromatic Kashmiri spiced gravy.",
+        price: "₹280",
+      },
+    ],
+  },
+  {
+    id: "seafood",
+    title: "Seafood Catch",
+    blurb: "Fresh seer fish, spicy nethili, crab masala & coastal prawn curries.",
+    img: "/dishes/Vanjayam Fish Fry.png",
+    items: [
+      {
+        name: "Vanjayam Fish Fry",
+        desc: "Fresh seer fish (king fish) steak marinated in house spices and crisp tawa-fried.",
+        price: "₹240",
+        tag: "Fresh Catch",
+      },
+      {
+        name: "Nethili Fish Fry",
+        desc: "Crisp golden spiced anchovies shallow-fried with curry leaves and lemon.",
+        price: "₹160",
+        tag: "Crispy",
+      },
+      {
+        name: "Mathi Fish Kulambu",
+        desc: "Traditional earthen pot sardine fish curry in tangy tamarind and shallot gravy.",
+        price: "₹170",
+        tag: "Traditional",
+      },
+      {
+        name: "Fish 65",
+        desc: "Crispy deep-fried spiced fish fillet cubes marinated in ginger and red chilli.",
+        price: "₹180",
+      },
+      {
+        name: "Fish Tikka (5 pcs)",
+        desc: "Fresh fish cubes marinated in tandoori spices and roasted over charcoal.",
+        price: "₹220",
+      },
+      {
+        name: "Crab Gravy (Nandu Masala)",
+        desc: "Whole sea crab simmered in a fiery, fragrant black pepper and fennel masala.",
+        price: "₹260",
+        tag: "Signature",
+      },
+      {
+        name: "Crab Lollipop",
+        desc: "Golden fried crab claw lollipops with herbs and crunchy exterior.",
+        price: "₹220",
+        tag: "Crispy",
+      },
+      {
+        name: "Prawn 65",
+        desc: "Juicy fresh prawns marinated with South Indian spices and deep fried.",
+        price: "₹210",
+      },
+      {
+        name: "Butter Garlic Prawn",
+        desc: "Fresh prawns tossed in garlic-infused butter with mild black pepper and herbs.",
+        price: "₹240",
+      },
+      {
+        name: "Chettinadu Style Prawn Kulambu",
+        desc: "Plump prawns cooked in a rich, tangy Chettinad curry with shallots and curry leaves.",
+        price: "₹230",
+      },
+      {
+        name: "Kadamba Gravy (Squid)",
+        desc: "Tender squid rings cooked in traditional coastal spiced masala gravy.",
+        price: "₹220",
+      },
+      {
+        name: "Squid (Kanava) Chilly",
+        desc: "Crispy spicy pan-fried squid tossed with onions, green chillies, and curry leaves.",
+        price: "₹210",
+      },
+    ],
+  },
+  {
+    id: "tandoori",
+    title: "Tandoori & BBQ",
+    blurb: "Clay-oven roasted kebabs, charcoal Alfahm & barbecue platters.",
+    img: "/dishes/Tandoori Chicken - Full.png",
+    items: [
+      {
+        name: "Tandoori Platter (8 Varieties)",
+        desc: "Grand sizzling platter featuring an assortment of 8 handcrafted kebabs and tandoori bites.",
+        price: "₹550",
+        tag: "Chef Platter",
+      },
+      {
+        name: "Tandoori Chicken - Full",
+        desc: "Whole farm chicken marinated in spiced yogurt and slow-charred in traditional clay tandoor.",
+        price: "₹380",
+        tag: "Bestseller",
+      },
+      {
+        name: "Alfahm Chicken BBQ (Full)",
+        desc: "Arabian charcoal-grilled succulent chicken marinated in crushed Arabic spices and lemon.",
+        price: "₹400",
+        tag: "Signature",
+      },
+      {
+        name: "Grill Chicken (Full)",
+        desc: "Slow rotisserie grilled whole chicken basted in house garlic butter pepper glaze.",
+        price: "₹380",
+      },
+      {
+        name: "Peri Peri Barbeque (Full)",
+        desc: "Flame-grilled chicken brushed with zesty and fiery African peri-peri glaze.",
+        price: "₹420",
+        tag: "Spicy",
+      },
+      {
+        name: "Chicken Tikka (6 pcs)",
+        desc: "Boneless chicken cubes infused with mustard oil, tandoori masala, and charred to perfection.",
+        price: "₹190",
+      },
+      {
+        name: "Chicken Hariyali Kebab (6 pcs)",
+        desc: "Tender chicken marinated in mint, coriander, green chillies, and creamy yogurt.",
+        price: "₹190",
+      },
+      {
+        name: "Murgh Malai Kebab (6 pcs)",
+        desc: "Melt-in-mouth chicken pieces steeped in cream, mild green cardamom, and cashew paste.",
+        price: "₹210",
+      },
+      {
+        name: "Chicken Seekh Kebab",
+        desc: "Spiced minced chicken skewers grilled over hot charcoal embers.",
+        price: "₹210",
+      },
+      {
+        name: "Mutton Seekh Kebab",
+        desc: "Finely minced tender mutton mixed with mint, ginger, and aromatic spices on skewers.",
+        price: "₹270",
+      },
+      {
+        name: "Kalmi Kebab (3 pcs-leg)",
+        desc: "Juicy chicken drumsticks marinated in spiced rich yogurt and roasted in tandoor.",
+        price: "₹220",
+      },
     ],
   },
   {
     id: "parotta",
-    title: "Parotta & Delights",
-    blurb: "Flaky layered parottas and sizzled street-style delights.",
-    img: chilliParottaImg,
+    title: "Parotta, Naan & Breads",
+    blurb: "Banana-leaf parottas, street-style kothu, bun parotta & hot salna.",
+    img: "/dishes/Vazhai Ilai Mutton Parotta.png",
     items: [
       {
-        name: "Chilli Kothu Parotta",
-        desc: "Shredded parotta tossed with bell peppers, onions, and rich spicy gravy.",
-        price: "₹120",
-        tag: "Bestseller",
-      },
-      {
-        name: "Veg Kothu Parotta",
-        desc: "Hand-chopped parotta roasted on iron tava with curry spices and raita.",
-        price: "₹110",
-      },
-      {
-        name: "Bun Parotta (2 pcs)",
-        desc: "Fluffy layered golden bun parotta served with aromatic veg salna.",
-        price: "₹75",
-      },
-      {
-        name: "Coin Parotta Platter",
-        desc: "Mini flaky coin parottas served with spicy gravy and onion raita.",
-        price: "₹95",
-      },
-    ],
-  },
-  {
-    id: "meals",
-    title: "Biryani & Rice",
-    blurb: "Seeraga Samba biryani & complete banana-leaf thali.",
-    img: mushroomBiryaniImg,
-    items: [
-      {
-        name: "Mushroom Seeraga Samba Biryani",
-        desc: "Traditional aromatic rice dum-cooked with tender button mushrooms and herbs.",
-        price: "₹150",
+        name: "Vazhai Ilai Mutton Parotta",
+        desc: "Flaky parotta layered with spicy mutton chukka and rich salna, wrapped and steamed in banana leaf.",
+        price: "₹220",
         tag: "Signature",
       },
       {
-        name: "Full South Indian Meal / Thali",
-        desc: "Rice, sambar, rasam, poriyal, kootu, curd, papad and pickle on banana leaf.",
-        price: "₹140",
+        name: "Vazhai Ilai Chicken Parotta",
+        desc: "Layered flaky parotta drenched in aromatic chicken salna and wrapped in banana leaf.",
+        price: "₹180",
         tag: "Bestseller",
       },
       {
-        name: "Mini Thali",
-        desc: "Sambar rice, curd rice, poriyal, and a sweet finish.",
-        price: "₹110",
+        name: "Mutton Kothu Parotta",
+        desc: "Tawa-shredded parotta vigorously beaten with tender mutton chunks, egg, and spicy gravy.",
+        price: "₹220",
+        tag: "Signature",
       },
       {
-        name: "Bisibelebath",
-        desc: "Hearty lentil-rice mash with home-ground spice.",
-        price: "₹85",
-      },
-      {
-        name: "Curd Rice",
-        desc: "Temple-style creamy curd rice, mustard tempering.",
-        price: "₹65",
-      },
-    ],
-  },
-  {
-    id: "starters",
-    title: "Starters & Chaat",
-    blurb: "Sizzling starters and evening street bites.",
-    img: chilliManchurianImg,
-    items: [
-      {
-        name: "Gobi 65 / Manchurian",
-        desc: "Crisp cauliflower florets tossed with fresh herbs, capsicum & spices.",
-        price: "₹110",
+        name: "Chicken Kothu Parotta",
+        desc: "Street-style shredded flaky parotta chopped on tawa with seasoned chicken, egg, and salna.",
+        price: "₹160",
         tag: "Popular",
       },
       {
-        name: "Paneer Chilli Dry",
-        desc: "Wok-tossed cottage cheese cubes with peppers and scallions.",
+        name: "Mixed (Egg, Chicken, Mutton) Kothu Parotta",
+        desc: "The ultimate meat feast — shredded parotta tossed with egg, succulent chicken, and tender mutton.",
+        price: "₹260",
+        tag: "Special",
+      },
+      {
+        name: "Egg Kothu Parotta",
+        desc: "Flaky parotta shredded and sautéed with fluffy scrambled eggs, onions, and curry leaves.",
+        price: "₹120",
+      },
+      {
+        name: "Bun Parotta (2 pcs)",
+        desc: "Crispy on the outside, fluffy and layered inside, served with hot aromatic salna.",
+        price: "₹90",
+      },
+      {
+        name: "Coin Parotta (6 pcs)",
+        desc: "Bite-sized flaky mini coin parottas served with rich non-veg gravy.",
+        price: "₹100",
+      },
+      {
+        name: "Nool Parotta (1 pc)",
+        desc: "Delicate string-like thread parotta made by skilled tawa masters, soft and flaky.",
+        price: "₹60",
+      },
+      {
+        name: "Chicken Veechu Parotta",
+        desc: "Hand-thrown thin crispy parotta folded with spiced chicken filling and egg.",
         price: "₹130",
       },
-      { name: "Samosa Chaat", desc: "Crushed samosa, chickpeas, chutneys, yogurt.", price: "₹80" },
       {
-        name: "Pani Puri (6 pcs)",
-        desc: "Crisp shells, spiced water, tangy filling.",
-        price: "₹50",
+        name: "Stuffed Chicken Naan",
+        desc: "Clay tandoor baked naan stuffed with flavorful spiced minced chicken.",
+        price: "₹140",
       },
-      { name: "Masala Vada", desc: "Chana dal fritters with coconut chutney.", price: "₹40" },
-    ],
-  },
-  {
-    id: "beverages",
-    title: "Beverages & Desserts",
-    blurb: "The finish. Made to linger over.",
-    img: coffeeImg,
-    items: [
       {
-        name: "Degree Filter Coffee",
-        desc: "Strong decoction, frothy milk, brass tumbler.",
-        price: "₹35",
-        tag: "Signature",
-      },
-      { name: "Masala Chai", desc: "Cardamom and ginger, brewed fresh.", price: "₹30" },
-      { name: "Fresh Lime Soda", desc: "Sweet, salt or plain — pick your taste.", price: "₹40" },
-      {
-        name: "Elaneer Payasam",
-        desc: "Chilled tender coconut kheer with cardamom.",
+        name: "Garlic Butter Naan",
+        desc: "Tandoor baked flatbread topped with minced roasted garlic and fresh dairy butter.",
         price: "₹75",
-        tag: "Seasonal",
       },
-      { name: "Rava Kesari", desc: "Ghee-rich saffron semolina sweet with cashews.", price: "₹35" },
+      {
+        name: "Kalakki",
+        desc: "Street-style soft-cooked creamy egg scramble infused with rich hot chicken salna.",
+        price: "₹45",
+        tag: "Street Favorite",
+      },
     ],
   },
 ];
@@ -215,7 +454,7 @@ function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const menuContainerRef = useRef<HTMLDivElement>(null);
 
-  // Handle Search Input Change: Searching automatically searches ALL categories so search terms like 'dosa' always find results!
+  // Handle Search Input Change: Searching automatically searches ALL categories so search terms like 'biryani' always find results!
   const handleSearchChange = (val: string) => {
     setSearchQuery(val);
     if (val.trim().length > 0) {
@@ -261,13 +500,13 @@ function ExplorePage() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[0.65rem] uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              100% Pure Vegetarian Kitchen
+              Authentic Non-Veg & Chettinad Kitchen
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display italic leading-[1.05] mb-3">
               Our Menu.
             </h1>
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Handcrafted recipes passed down through generations. Prepared daily with cold-pressed oils, RO water, and zero artificial preservatives.
+              Handcrafted recipes passed down through generations. Prepared daily with tender farm-fresh meats, cold-pressed oils, and stone-ground spices.
             </p>
           </div>
 
@@ -294,19 +533,19 @@ function ExplorePage() {
         {/* Quality Guarantees Bar */}
         <div className="mt-8 py-3 px-5 border border-emerald-500/20 bg-emerald-500/[0.03] rounded-xl flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-emerald-300/90 uppercase tracking-widest">
           <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> RO Water Cooking
+            <span className="text-emerald-400">✓</span> 100% Fresh Meat
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> No Ajinomoto
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> No Preservatives
+            <span className="text-emerald-400">✓</span> Slow Dum Biryani
           </div>
           <div className="flex items-center gap-2">
             <span className="text-emerald-400">✓</span> No Palm Oil
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> 100% Pure Veg
+            <span className="text-emerald-400">✓</span> Natural Whole Spices
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-400">✓</span> Clean & Hygienic
           </div>
         </div>
 
@@ -354,7 +593,7 @@ function ExplorePage() {
         {filteredMenu.length === 0 ? (
           <div className="text-center py-20 bg-[#111116] border border-white/10 rounded-2xl p-8">
             <h3 className="text-2xl font-display mb-2">No dishes matching "{searchQuery}"</h3>
-            <p className="text-sm text-muted-foreground mb-6">Try searching for Dosa, Idli, Coffee, Biryani, or Parotta.</p>
+            <p className="text-sm text-muted-foreground mb-6">Try searching for Mutton Biryani, Chettinadu Chicken, Kothu Parotta, Fish Fry, or Tandoori.</p>
             <button
               onClick={() => {
                 setActiveCategory("all");

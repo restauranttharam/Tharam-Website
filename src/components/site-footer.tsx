@@ -49,11 +49,18 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-[2.5rem] font-display font-bold uppercase text-primary/30 leading-none tracking-wider">
-            Tharam
+          <div className="flex items-center gap-3">
+            <img
+              src="/tharam-logo.png"
+              alt="Tharam Logo"
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain rounded-full border border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.3)] bg-black/40"
+            />
+            <span className="text-[2rem] sm:text-[2.5rem] font-display font-bold uppercase text-primary/50 leading-none tracking-wider">
+              Tharam
+            </span>
           </div>
           <div className="text-[0.68rem] font-mono uppercase tracking-widest text-foreground/40 text-center md:text-right">
-            © {new Date().getFullYear()} Tharam Restaurant · Pure Vegetarian · Hosur
+            © {new Date().getFullYear()} Tharam Restaurant · Authentic Non-Veg & South Indian · Hosur
           </div>
         </div>
       </div>
