@@ -1,657 +1,588 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { PhotoGallery } from "@/components/photo-gallery";
+import {
+  MENU_DISHES,
+  CATEGORY_ORDER,
+  CATEGORY_METADATA,
+  DishItem,
+} from "@/data/menu-data";
+import {
+  Search,
+  SlidersHorizontal,
+  ArrowUpDown,
+  Flame,
+  UtensilsCrossed,
+  X,
+  RotateCcw,
+  LayoutGrid,
+  ListFilter,
+  Check,
+  ChevronDown,
+} from "lucide-react";
 
 export const Route = createFileRoute("/explore")({
   head: () => ({
     meta: [
-      { title: "Menu — Tharam Restaurant, Authentic Non-Veg & South Indian in Hosur" },
+      { title: "Non-Veg Menu & Prices — Tharam Restaurant Hosur" },
       {
         name: "description",
         content:
-          "Explore Tharam's authentic non-vegetarian South Indian menu — Seeraga Samba Mutton Biryani, Chettinad Chicken, Kothu Parotta, Seafood and Tandoori.",
+          "Explore Tharam's authentic 100% non-vegetarian South Indian menu with latest prices. Seeraga Samba Mutton Biryani, Chettinad Chicken, Seafood, Tandoori & Parotta.",
       },
-      { property: "og:title", content: "Menu — Tharam Restaurant" },
-      { property: "og:description", content: "Authentic South Indian non-veg menu in Hosur." },
+      { property: "og:title", content: "Non-Veg Menu — Tharam Restaurant" },
+      { property: "og:description", content: "Authentic non-veg South Indian delicacies with verified prices in Hosur." },
     ],
   }),
   component: ExplorePage,
 });
 
-type Item = { name: string; desc: string; price: string; tag?: string };
+type SortOption = "default" | "price-asc" | "price-desc" | "name-asc";
+type MeatOption = "all" | "chicken" | "mutton" | "fish" | "prawn" | "crab" | "egg";
+type PriceRangeOption = "all" | "under-200" | "200-350" | "350-500" | "500-plus";
 
-const menu: { id: string; title: string; blurb: string; img: string; items: Item[] }[] = [
-  {
-    id: "biryani",
-    title: "Biryani & Rice",
-    blurb: "Slow-dum cooked Seeraga Samba biryani & authentic non-veg meals.",
-    img: "/dishes/Tharam Spl Mutton Biryani.png",
-    items: [
-      {
-        name: "Tharam Spl Mutton Biryani",
-        desc: "Slow dum-cooked tender mutton with fragrant Seeraga Samba rice, whole spices, served with brinjal dalcha & raita.",
-        price: "₹350",
-        tag: "Signature",
-      },
-      {
-        name: "Tharam Spl Chicken Biryani",
-        desc: "Flavor-rich dum biryani made with succulent farm chicken, aromatic seeraga samba rice, and whole spices.",
-        price: "₹250",
-        tag: "Bestseller",
-      },
-      {
-        name: "Mutton Chukka Biryani",
-        desc: "Seeraga samba biryani served topped with spicy pan-roasted mutton chukka.",
-        price: "₹390",
-        tag: "Chef Special",
-      },
-      {
-        name: "Naatu Kozhi Biryani",
-        desc: "Traditional country chicken slow-simmered in rich spices and aromatic seeraga samba biryani.",
-        price: "₹290",
-        tag: "Specialty",
-      },
-      {
-        name: "Prawn Biryani",
-        desc: "Fresh ocean prawns cooked with fragrant spices and dum-steamed seeraga samba biryani rice.",
-        price: "₹420",
-        tag: "Seafood",
-      },
-      {
-        name: "Chicken 65 Biryani",
-        desc: "Aromatic dum biryani topped with crispy spiced chicken 65 bites.",
-        price: "₹260",
-        tag: "Popular",
-      },
-      {
-        name: "Egg Biryani",
-        desc: "Aromatic biryani rice served with two golden spiced roasted masala eggs.",
-        price: "₹170",
-      },
-      {
-        name: "Chicken Plain Biryani",
-        desc: "Fragrant seasoned biryani rice (kuska) served with rich chicken salna and onion raita.",
-        price: "₹170",
-      },
-      {
-        name: "Tharam Spl Mutton Meals",
-        desc: "Grand banana leaf feast with steaming ponni rice, rich mutton kulambu, chicken gravy, fish curry, rasam, kootu & appalam.",
-        price: "₹499",
-        tag: "Feast",
-      },
-      {
-        name: "Tharam Spl Chicken Meals",
-        desc: "Full non-veg meals with rice, hearty chicken gravy, fish curry, rasam, poriyal, curd & appalam.",
-        price: "₹399",
-      },
-      {
-        name: "Tharam Spl Seafood Meals",
-        desc: "Authentic coastal meals with rice, tangy fish kulambu, prawn gravy, rasam, curd & appalam.",
-        price: "₹499",
-      },
-    ],
-  },
-  {
-    id: "chicken",
-    title: "Chicken Specials",
-    blurb: "Fiery Chettinad gravies, Kongu Pallipalayam & tava roasted delicacies.",
-    img: "/dishes/Chettinadu Chicken.png",
-    items: [
-      {
-        name: "Chettinadu Chicken",
-        desc: "Country chicken roasted with crushed Tellicherry black pepper, shallots, and fresh curry leaves.",
-        price: "₹260",
-        tag: "Bestseller",
-      },
-      {
-        name: "Chicken Pallipalayam",
-        desc: "Authentic Kongu style chicken tossed with dry red chillies, shallots, and coconut slivers.",
-        price: "₹280",
-        tag: "Signature",
-      },
-      {
-        name: "Chicken Sindhamani - Dry",
-        desc: "Fiery dry chicken sautéed with round red chillies, garlic, and curry leaves.",
-        price: "₹280",
-      },
-      {
-        name: "Madurai Spl. Moodi Vacha Chicken",
-        desc: "Traditional covered clay-pot style slow-cooked Madurai chicken curry.",
-        price: "₹280",
-        tag: "Madurai Special",
-      },
-      {
-        name: "Chef Spl. Pavalakodi Chicken",
-        desc: "Chef's signature spicy ruby-red chicken tossed with rich home-ground masala.",
-        price: "₹290",
-        tag: "Chef Special",
-      },
-      {
-        name: "Chef Spl. Chicken Maharani",
-        desc: "Royal mild spiced rich cashew and cream based chicken delicacy.",
-        price: "₹300",
-      },
-      {
-        name: "Chicken Pepper Fry",
-        desc: "Spicy pan-fried chicken tossed with freshly cracked black pepper and onions.",
-        price: "₹280",
-        tag: "Spicy",
-      },
-      {
-        name: "Chicken Pichupottathu",
-        desc: "Shredded boneless chicken sautéed with shallots, crushed pepper, and egg.",
-        price: "₹270",
-      },
-      {
-        name: "Chicken 65",
-        desc: "Crispy deep-fried spiced chicken bites marinated in ginger, garlic, and red chilli.",
-        price: "₹250",
-        tag: "Crispy",
-      },
-      {
-        name: "Chicken Lollipop (5 pcs)",
-        desc: "Crispy fried frenched chicken wings served with hot garlic dip.",
-        price: "₹290",
-      },
-      {
-        name: "Butter Chicken Masala",
-        desc: "Tender chicken pieces simmered in a creamy spiced tomato butter makhani gravy.",
-        price: "₹320",
-      },
-      {
-        name: "Kadai Chicken Masala",
-        desc: "Kadai-tossed chicken cooked with bell peppers, onions, and freshly ground kadai spices.",
-        price: "₹280",
-      },
-    ],
-  },
-  {
-    id: "mutton",
-    title: "Mutton Delights",
-    blurb: "Tender bone marrow nalli, chukka fry & traditional village curries.",
-    img: "/dishes/Mutton Nalli Chukka.png",
-    items: [
-      {
-        name: "Mutton Nalli Chukka",
-        desc: "Succulent bone marrow nalli roasted with shallots, Tellicherry pepper, and rustic masala.",
-        price: "₹490",
-        tag: "Must Try",
-      },
-      {
-        name: "Manapatti Mutton Chukka",
-        desc: "Tender boneless mutton slow-roasted with shallots, garlic, and freshly ground country spices.",
-        price: "₹420",
-        tag: "Signature",
-      },
-      {
-        name: "Mutton Boti Pepper Fry",
-        desc: "Traditional spiced lamb intestine tossed with crushed black pepper and shallots.",
-        price: "₹370",
-        tag: "Traditional",
-      },
-      {
-        name: "(Kudal) Boti Kulambu",
-        desc: "Authentic village-style rich gravy cooked with tender boti and country spices.",
-        price: "₹310",
-      },
-      {
-        name: "Mutton Chettinadu Dry",
-        desc: "Dry-roasted tender mutton with roasted coconut, fennel, and rustic Chettinad masala.",
-        price: "₹380",
-      },
-      {
-        name: "Mutton Pepper Fry",
-        desc: "Tender mutton pieces sautéed with crushed Tellicherry black pepper and curry leaves.",
-        price: "₹390",
-      },
-      {
-        name: "Special Madurai Style Mutton Kulambu",
-        desc: "Spicy and tangy traditional Madurai mutton gravy slow-simmered to perfection.",
-        price: "₹340",
-        tag: "Madurai Special",
-      },
-      {
-        name: "Kadai Mutton Masala",
-        desc: "Tender mutton simmered with bell peppers and roasted ground coriander in iron kadai.",
-        price: "₹380",
-      },
-      {
-        name: "Salem Spl. Mutton Crispy Chilli",
-        desc: "Crispy fried seasoned mutton tossed with green chillies and curry leaves.",
-        price: "₹290",
-        tag: "Crispy",
-      },
-      {
-        name: "Mutton Rogan Josh",
-        desc: "Slow-braised tender mutton in an aromatic Kashmiri spiced gravy.",
-        price: "₹390",
-      },
-    ],
-  },
-  {
-    id: "seafood",
-    title: "Seafood Catch",
-    blurb: "Fresh seer fish, spicy nethili, crab masala & coastal prawn curries.",
-    img: "/dishes/Vanjayam Fish Fry.png",
-    items: [
-      {
-        name: "Vanjayam Fish Fry",
-        desc: "Fresh seer fish (king fish) steak marinated in house spices and crisp tawa-fried.",
-        price: "₹400",
-        tag: "Fresh Catch",
-      },
-      {
-        name: "Nethili Fish Fry",
-        desc: "Crisp golden spiced anchovies shallow-fried with curry leaves and lemon.",
-        price: "₹280",
-        tag: "Crispy",
-      },
-      {
-        name: "Mathi Fish Kulambu",
-        desc: "Traditional earthen pot sardine fish curry in tangy tamarind and shallot gravy.",
-        price: "₹240",
-        tag: "Traditional",
-      },
-      {
-        name: "Fish 65",
-        desc: "Crispy deep-fried spiced fish fillet cubes marinated in ginger and red chilli.",
-        price: "₹350",
-      },
-      {
-        name: "Fish Tikka (5 pcs)",
-        desc: "Fresh fish cubes marinated in tandoori spices and roasted over charcoal.",
-        price: "₹380",
-      },
-      {
-        name: "Crab Gravy (Nandu Masala)",
-        desc: "Whole sea crab simmered in a fiery, fragrant black pepper and fennel masala.",
-        price: "₹440",
-        tag: "Signature",
-      },
-      {
-        name: "Crab Lollipop",
-        desc: "Golden fried crab claw lollipops with herbs and crunchy exterior.",
-        price: "₹360",
-        tag: "Crispy",
-      },
-      {
-        name: "Prawn 65",
-        desc: "Juicy fresh prawns marinated with South Indian spices and deep fried.",
-        price: "₹330",
-      },
-      {
-        name: "Butter Garlic Prawn",
-        desc: "Fresh prawns tossed in garlic-infused butter with mild black pepper and herbs.",
-        price: "₹340",
-      },
-      {
-        name: "Chettinadu Style Prawn Kulambu",
-        desc: "Plump prawns cooked in a rich, tangy Chettinad curry with shallots and curry leaves.",
-        price: "₹440",
-      },
-      {
-        name: "Kadamba Gravy (Squid)",
-        desc: "Tender squid rings cooked in traditional coastal spiced masala gravy.",
-        price: "₹340",
-      },
-      {
-        name: "Squid (Kanava) Chilly",
-        desc: "Crispy spicy pan-fried squid tossed with onions, green chillies, and curry leaves.",
-        price: "₹360",
-      },
-    ],
-  },
-  {
-    id: "tandoori",
-    title: "Tandoori & BBQ",
-    blurb: "Clay-oven roasted kebabs, charcoal Alfahm & barbecue platters.",
-    img: "/dishes/Tandoori Chicken - Full.png",
-    items: [
-      {
-        name: "Tandoori Platter (8 Varieties)",
-        desc: "Grand sizzling platter featuring an assortment of 8 handcrafted kebabs and tandoori bites.",
-        price: "₹699",
-        tag: "Chef Platter",
-      },
-      {
-        name: "Tandoori Chicken - Full",
-        desc: "Whole farm chicken marinated in spiced yogurt and slow-charred in traditional clay tandoor.",
-        price: "₹600",
-        tag: "Bestseller",
-      },
-      {
-        name: "Alfahm Chicken BBQ (Full)",
-        desc: "Arabian charcoal-grilled succulent chicken marinated in crushed Arabic spices and lemon.",
-        price: "₹650",
-        tag: "Signature",
-      },
-      {
-        name: "Grill Chicken (Full)",
-        desc: "Slow rotisserie grilled whole chicken basted in house garlic butter pepper glaze.",
-        price: "₹600",
-      },
-      {
-        name: "Peri Peri Barbeque (Full)",
-        desc: "Flame-grilled chicken brushed with zesty and fiery African peri-peri glaze.",
-        price: "₹650",
-        tag: "Spicy",
-      },
-      {
-        name: "Chicken Tikka (6 pcs)",
-        desc: "Boneless chicken cubes infused with mustard oil, tandoori masala, and charred to perfection.",
-        price: "₹320",
-      },
-      {
-        name: "Chicken Hariyali Kebab (6 pcs)",
-        desc: "Tender chicken marinated in mint, coriander, green chillies, and creamy yogurt.",
-        price: "₹300",
-      },
-      {
-        name: "Murgh Malai Kebab (6 pcs)",
-        desc: "Melt-in-mouth chicken pieces steeped in cream, mild green cardamom, and cashew paste.",
-        price: "₹350",
-      },
-      {
-        name: "Chicken Seekh Kebab",
-        desc: "Spiced minced chicken skewers grilled over hot charcoal embers.",
-        price: "₹320",
-      },
-      {
-        name: "Mutton Seekh Kebab",
-        desc: "Finely minced tender mutton mixed with mint, ginger, and aromatic spices on skewers.",
-        price: "₹370",
-      },
-      {
-        name: "Kalmi Kebab (3 pcs-leg)",
-        desc: "Juicy chicken drumsticks marinated in spiced rich yogurt and roasted in tandoor.",
-        price: "₹300",
-      },
-    ],
-  },
-  {
-    id: "parotta",
-    title: "Parotta, Naan & Breads",
-    blurb: "Banana-leaf parottas, street-style kothu, bun parotta & hot salna.",
-    img: "/dishes/Vazhai Ilai Mutton Parotta.png",
-    items: [
-      {
-        name: "Vazhai Ilai Mutton Parotta",
-        desc: "Flaky parotta layered with spicy mutton chukka and rich salna, wrapped and steamed in banana leaf.",
-        price: "₹290",
-        tag: "Signature",
-      },
-      {
-        name: "Vazhai Ilai Chicken Parotta",
-        desc: "Layered flaky parotta drenched in aromatic chicken salna and wrapped in banana leaf.",
-        price: "₹220",
-        tag: "Bestseller",
-      },
-      {
-        name: "Mutton Kothu Parotta",
-        desc: "Tawa-shredded parotta vigorously beaten with tender mutton chunks, egg, and spicy gravy.",
-        price: "₹260",
-        tag: "Signature",
-      },
-      {
-        name: "Chicken Kothu Parotta",
-        desc: "Street-style shredded flaky parotta chopped on tawa with seasoned chicken, egg, and salna.",
-        price: "₹210",
-        tag: "Popular",
-      },
-      {
-        name: "Mixed (Egg, Chicken, Mutton) Kothu Parotta",
-        desc: "The ultimate meat feast — shredded parotta tossed with egg, succulent chicken, and tender mutton.",
-        price: "₹320",
-        tag: "Special",
-      },
-      {
-        name: "Egg Kothu Parotta",
-        desc: "Flaky parotta shredded and sautéed with fluffy scrambled eggs, onions, and curry leaves.",
-        price: "₹160",
-      },
-      {
-        name: "Bun Parotta (2 pcs)",
-        desc: "Crispy on the outside, fluffy and layered inside, served with hot aromatic salna.",
-        price: "₹100",
-      },
-      {
-        name: "Coin Parotta (6 pcs)",
-        desc: "Bite-sized flaky mini coin parottas served with rich non-veg gravy.",
-        price: "₹120",
-      },
-      {
-        name: "Nool Parotta (1 pc)",
-        desc: "Delicate string-like thread parotta made by skilled tawa masters, soft and flaky.",
-        price: "₹70",
-      },
-      {
-        name: "Chicken Veechu Parotta",
-        desc: "Hand-thrown thin crispy parotta folded with spiced chicken filling and egg.",
-        price: "₹180",
-      },
-      {
-        name: "Stuffed Chicken Naan",
-        desc: "Clay tandoor baked naan stuffed with flavorful spiced minced chicken.",
-        price: "₹140",
-      },
-      {
-        name: "Garlic Butter Naan",
-        desc: "Tandoor baked flatbread topped with minced roasted garlic and fresh dairy butter.",
-        price: "₹70",
-      },
-      {
-        name: "Kalakki",
-        desc: "Street-style soft-cooked creamy egg scramble infused with rich hot chicken salna.",
-        price: "₹90",
-        tag: "Street Favorite",
-      },
-    ],
-  },
+const MEAT_FILTERS: { id: MeatOption; label: string; icon: string }[] = [
+  { id: "all", label: "All Meats", icon: "🍖" },
+  { id: "chicken", label: "Chicken", icon: "🍗" },
+  { id: "mutton", label: "Mutton", icon: "🥩" },
+  { id: "fish", label: "Fish", icon: "🐟" },
+  { id: "prawn", label: "Prawn", icon: "🦐" },
+  { id: "crab", label: "Crab", icon: "🦀" },
+  { id: "egg", label: "Egg", icon: "🥚" },
+];
+
+const PRICE_FILTERS: { id: PriceRangeOption; label: string }[] = [
+  { id: "all", label: "All Prices" },
+  { id: "under-200", label: "Under ₹200" },
+  { id: "200-350", label: "₹200 – ₹350" },
+  { id: "350-500", label: "₹350 – ₹500" },
+  { id: "500-plus", label: "₹500+" },
+];
+
+const SORT_OPTIONS: { id: SortOption; label: string }[] = [
+  { id: "default", label: "Featured Order" },
+  { id: "price-asc", label: "Price: Low to High" },
+  { id: "price-desc", label: "Price: High to Low" },
+  { id: "name-asc", label: "Name: A to Z" },
 ];
 
 function ExplorePage() {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedMeat, setSelectedMeat] = useState<MeatOption>("all");
+  const [selectedPriceRange, setSelectedPriceRange] = useState<PriceRangeOption>("all");
+  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [viewMode, setViewMode] = useState<"categorized" | "grid">("categorized");
+  const [showMobileFilters, setShowMobileFilters] = useState<boolean>(false);
+  const [showSortDropdown, setShowSortDropdown] = useState<boolean>(false);
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close sort dropdown on outside click
+  const handleClickOutside = useCallback((e: MouseEvent) => {
+    if (sortDropdownRef.current && !sortDropdownRef.current.contains(e.target as Node)) {
+      setShowSortDropdown(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showSortDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [showSortDropdown, handleClickOutside]);
+
   const menuContainerRef = useRef<HTMLDivElement>(null);
 
-  // Handle Search Input Change: Searching automatically searches ALL categories so search terms like 'biryani' always find results!
-  const handleSearchChange = (val: string) => {
-    setSearchQuery(val);
-    if (val.trim().length > 0) {
-      setActiveCategory("all");
-    }
+  // Check if any filter is active
+  const hasActiveFilters =
+    searchQuery.trim() !== "" ||
+    selectedCategory !== "all" ||
+    selectedMeat !== "all" ||
+    selectedPriceRange !== "all" ||
+    sortBy !== "default";
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchQuery("");
+    setSelectedCategory("all");
+    setSelectedMeat("all");
+    setSelectedPriceRange("all");
+    setSortBy("default");
+    setViewMode("categorized");
   };
 
-  // Handle Category Filter Click: Keep scroll position smooth without layout jump
-  const handleCategoryClick = (catId: string) => {
-    setActiveCategory(catId);
+  // Scroll smoothly to menu container when switching category
+  const handleCategoryClick = (cat: string) => {
+    setSelectedCategory(cat);
     if (menuContainerRef.current) {
-      const topOffset = menuContainerRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      const topOffset = menuContainerRef.current.getBoundingClientRect().top + window.scrollY - 110;
       window.scrollTo({ top: topOffset, behavior: "smooth" });
     }
   };
 
-  const filteredMenu = menu
-    .map((sec) => {
-      const matchingItems = sec.items.filter((item) => {
-        // If searching, ignore category restriction to find items everywhere
-        const matchesCategory = searchQuery.trim() !== "" || activeCategory === "all" || sec.id === activeCategory;
-        const q = searchQuery.toLowerCase().trim();
-        const matchesSearch =
-          q === "" ||
-          item.name.toLowerCase().includes(q) ||
-          item.desc.toLowerCase().includes(q) ||
-          sec.title.toLowerCase().includes(q) ||
-          (item.tag && item.tag.toLowerCase().includes(q));
-        return matchesCategory && matchesSearch;
-      });
+  // Count items per meat type
+  const meatCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: MENU_DISHES.length };
+    for (const d of MENU_DISHES) {
+      counts[d.meat] = (counts[d.meat] || 0) + 1;
+    }
+    return counts;
+  }, []);
 
-      return { ...sec, items: matchingItems };
-    })
-    .filter((sec) => sec.items.length > 0);
+  // Filtered dishes
+  const filteredDishes = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+
+    return MENU_DISHES.filter((dish) => {
+      // 1. Search filter
+      if (q) {
+        const matchName = dish.name.toLowerCase().includes(q);
+        const matchCat = dish.category.toLowerCase().includes(q);
+        const matchMeat = dish.meat.toLowerCase().includes(q);
+        const matchPrice = dish.price.includes(q);
+        const matchTag = dish.tag ? dish.tag.toLowerCase().includes(q) : false;
+        if (!matchName && !matchCat && !matchMeat && !matchPrice && !matchTag) {
+          return false;
+        }
+      }
+
+      // 2. Category filter
+      if (selectedCategory !== "all" && dish.category !== selectedCategory) {
+        return false;
+      }
+
+      // 3. Meat filter
+      if (selectedMeat !== "all") {
+        if (selectedMeat === "fish" && !["fish", "seafood"].includes(dish.meat)) return false;
+        if (selectedMeat !== "fish" && dish.meat !== selectedMeat) return false;
+      }
+
+      // 4. Price range filter
+      if (selectedPriceRange === "under-200" && dish.priceNum >= 200) return false;
+      if (selectedPriceRange === "200-350" && (dish.priceNum < 200 || dish.priceNum > 350)) return false;
+      if (selectedPriceRange === "350-500" && (dish.priceNum < 350 || dish.priceNum > 500)) return false;
+      if (selectedPriceRange === "500-plus" && dish.priceNum <= 500) return false;
+
+      return true;
+    });
+  }, [searchQuery, selectedCategory, selectedMeat, selectedPriceRange]);
+
+  // Sorted dishes
+  const sortedDishes = useMemo(() => {
+    const list = [...filteredDishes];
+    if (sortBy === "price-asc") {
+      list.sort((a, b) => a.priceNum - b.priceNum);
+    } else if (sortBy === "price-desc") {
+      list.sort((a, b) => b.priceNum - a.priceNum);
+    } else if (sortBy === "name-asc") {
+      list.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return list;
+  }, [filteredDishes, sortBy]);
+
+  // Grouped by category (used in Categorized view)
+  const groupedSections = useMemo(() => {
+    const grouped: { category: string; blurb: string; items: DishItem[] }[] = [];
+    const catSet = new Set(sortedDishes.map((d) => d.category));
+
+    // Maintain preferred order
+    for (const catName of CATEGORY_ORDER) {
+      if (catSet.has(catName)) {
+        const items = sortedDishes.filter((d) => d.category === catName);
+        if (items.length > 0) {
+          grouped.push({
+            category: catName,
+            blurb: CATEGORY_METADATA[catName]?.blurb || "Authentic South Indian non-veg delicacy.",
+            items,
+          });
+        }
+      }
+    }
+
+    // Any remaining categories not in order
+    for (const catName of catSet) {
+      if (!CATEGORY_ORDER.includes(catName)) {
+        const items = sortedDishes.filter((d) => d.category === catName);
+        if (items.length > 0) {
+          grouped.push({
+            category: catName,
+            blurb: "Authentic South Indian non-veg delicacy.",
+            items,
+          });
+        }
+      }
+    }
+
+    return grouped;
+  }, [sortedDishes]);
+
+  // If a non-default sort or non-category filter is active, grid view is preferred for readability
+  const effectiveViewMode =
+    sortBy !== "default" || selectedMeat !== "all" || selectedPriceRange !== "all" || searchQuery.trim() !== ""
+      ? "grid"
+      : viewMode;
 
   return (
     <>
       {/* HEADER HERO */}
-      <section className="relative pt-4 sm:pt-6 md:pt-10 pb-10 md:pb-14 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
-        <div className="absolute top-0 left-1/3 w-[450px] h-[450px] bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),_transparent_70%)] pointer-events-none blur-3xl" />
+      <section className="relative pt-4 sm:pt-10 pb-4 sm:pb-8 px-3 sm:px-6 md:px-8 max-w-7xl mx-auto">
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.12),_transparent_70%)] pointer-events-none blur-3xl" />
 
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-3 sm:gap-6 relative z-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[0.65rem] uppercase tracking-widest mb-4">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Authentic Non-Veg & Chettinad Kitchen
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[0.58rem] sm:text-[0.65rem] uppercase tracking-widest mb-2 sm:mb-3.5">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse" />
+              100% Authentic Non-Veg · Hosur
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display italic leading-[1.05] mb-3">
-              Our Menu.
+            <h1 className="text-2xl sm:text-5xl font-display italic leading-[1.05] mb-1.5 sm:mb-2.5">
+              Our Non-Veg Menu.
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Handcrafted recipes passed down through generations. Prepared daily with tender farm-fresh meats, cold-pressed oils, and stone-ground spices.
+            <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">
+              Explore 160+ slow-cooked Seeraga Samba biryanis, Chettinad gravies, tava roasts, fresh coastal seafood, clay tandoori kebabs, and street-style parottas.
             </p>
           </div>
 
           {/* Quick Ordering Partners */}
-          <div className="flex flex-wrap items-center gap-3 bg-[#111116] border border-white/10 p-3.5 rounded-xl">
-            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground me-1">Available on:</span>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 bg-[#111116] border border-white/10 p-2 sm:p-3 rounded-lg sm:rounded-xl shadow-lg">
+            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground me-1 hidden sm:inline">Order:</span>
             <a
               href="tel:06380795502"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-mono text-[0.7rem] uppercase tracking-wider hover:bg-emerald-500/30 transition-colors"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-md sm:rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-mono text-[0.65rem] sm:text-xs uppercase tracking-wider hover:bg-emerald-500/25 transition-all font-semibold"
             >
-              ☎ Call Order
+              ☎ Call 063807 95502
             </a>
             <a
               href="https://maps.app.goo.gl/P5HDab6jb3RAdUz28"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-white/20 bg-white/5 text-foreground font-mono text-[0.7rem] uppercase tracking-wider hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-md sm:rounded-lg border border-white/15 bg-white/5 text-foreground font-mono text-[0.65rem] sm:text-xs uppercase tracking-wider hover:border-primary hover:text-primary transition-all"
             >
-              📍 Takeaway
+              📍 Dine-in / Takeaway
             </a>
           </div>
         </div>
 
-        {/* Quality Guarantees Bar */}
-        <div className="mt-8 py-3 px-5 border border-emerald-500/20 bg-emerald-500/[0.03] rounded-xl flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-emerald-300/90 uppercase tracking-widest">
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> 100% Fresh Meat
+        {/* Quality Badges */}
+        <div className="mt-3 sm:mt-6 py-1.5 sm:py-2.5 px-2.5 sm:px-4 border border-emerald-500/20 bg-emerald-500/[0.03] rounded-lg sm:rounded-xl grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-between gap-x-3 gap-y-1 sm:gap-3 text-[0.6rem] sm:text-[0.72rem] font-mono text-emerald-300/90 uppercase tracking-widest">
+          <div className="flex items-center gap-1">
+            <span className="text-emerald-400 font-bold">✓</span> Fresh Farm Meats
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> Slow Dum Biryani
+          <div className="flex items-center gap-1">
+            <span className="text-emerald-400 font-bold">✓</span> Seeraga Samba Biryani
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> No Palm Oil
+          <div className="flex items-center gap-1">
+            <span className="text-emerald-400 font-bold">✓</span> No Palm Oil
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> Natural Whole Spices
+          <div className="flex items-center gap-1">
+            <span className="text-emerald-400 font-bold">✓</span> Coastal Catch
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">✓</span> Clean & Hygienic
-          </div>
-        </div>
-
-        {/* FILTER & SEARCH BAR SECTION */}
-        <div ref={menuContainerRef} className="mt-10 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 relative z-10">
-          {/* Horizontal Scrolling Category Filter Bar (Fixes jumping up/down on click!) */}
-          <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none max-w-full">
-            {[{ id: "all", title: "All Items" }, ...menu].map((m) => (
-              <button
-                key={m.id}
-                onClick={() => handleCategoryClick(m.id)}
-                className={`shrink-0 px-4 py-2.5 font-mono text-[0.7rem] uppercase tracking-widest transition-all duration-200 rounded-md ${activeCategory === m.id && searchQuery.trim() === ""
-                  ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-400 text-black font-bold shadow-[0_0_18px_rgba(16,185,129,0.35)]"
-                  : "border border-white/10 bg-white/[0.03] text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-white/[0.06]"
-                  }`}
-              >
-                {m.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Live Search Input (Auto-searches ALL categories when typed!) */}
-          <div className="relative min-w-[180px] max-w-[220px] sm:max-w-[240px] shrink-0">
-            <input
-              type="text"
-              placeholder="Search dishes..."
-              value={searchQuery}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full bg-[#111116] border border-white/15 rounded-lg pl-3.5 pr-8 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors font-mono"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => handleSearchChange("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs font-mono"
-              >
-                ✕ Clear
-              </button>
-            )}
+          <div className="flex items-center gap-1 col-span-2 sm:col-span-1">
+            <span className="text-emerald-400 font-bold">✓</span> Stone-Ground Masalas
           </div>
         </div>
       </section>
 
-      {/* MENU SECTIONS (min-h-[60vh] prevents layout collapse jumpiness) */}
-      <section className="min-h-[60vh] pb-20 md:pb-24 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto">
-        {filteredMenu.length === 0 ? (
-          <div className="text-center py-20 bg-[#111116] border border-white/10 rounded-2xl p-8">
-            <h3 className="text-2xl font-display mb-2">No dishes matching "{searchQuery}"</h3>
-            <p className="text-sm text-muted-foreground mb-6">Try searching for Mutton Biryani, Chettinadu Chicken, Kothu Parotta, Fish Fry, or Tandoori.</p>
-            <button
-              onClick={() => {
-                setActiveCategory("all");
-                setSearchQuery("");
-              }}
-              className="px-6 py-2.5 bg-primary text-black font-mono text-xs uppercase tracking-widest rounded-md font-semibold hover:brightness-110"
-            >
-              Show All Menu Items
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-16 md:space-y-20">
-            {filteredMenu.map((section) => (
-              <div key={section.id} className="grid lg:grid-cols-12 gap-10 pt-8 border-t border-white/10">
-                <aside className="lg:col-span-4">
-                  <div>
-                    <div className="aspect-[4/3] overflow-hidden mb-5 rounded-xl border border-white/10 shadow-[0_15px_30px_rgba(0,0,0,0.6)]">
-                      <img
-                        src={section.img}
-                        alt={section.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover brightness-95 hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-display mb-2">{section.title}</h2>
-                    <p className="text-sm text-muted-foreground">{section.blurb}</p>
-                  </div>
-                </aside>
+      {/* FILTER & CONTROL PANEL (STICKY ON SCROLL) */}
+      <section ref={menuContainerRef} className="sticky top-16 z-30 bg-[#0a0a0e]/95 backdrop-blur-xl border-y border-white/10 shadow-2xl py-2 sm:py-3 px-3 sm:px-6 md:px-8">
+        <div className="max-w-7xl mx-auto space-y-2 sm:space-y-3">
+          {/* TOP CONTROL ROW: Search + Protein Chips + Sort Dropdown */}
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2 sm:gap-3">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-full md:max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search dish (e.g. Mutton, Biryani)..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#111116] border border-white/15 rounded-md sm:rounded-lg pl-8 sm:pl-10 pr-8 sm:pr-9 py-1.5 sm:py-2 text-[0.7rem] sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-all font-mono shadow-inner"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs"
+                  title="Clear search"
+                >
+                  <X className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                </button>
+              )}
+            </div>
 
-                <div className="lg:col-span-8">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {section.items.map((item) => (
-                      <div
-                        key={item.name}
-                        className="bg-[#111116] border border-white/10 p-4 rounded-lg hover:border-primary/40 transition-all flex flex-col justify-between group hover:shadow-[0_10px_25px_rgba(0,0,0,0.4)]"
+            {/* Protein Quick Selector (Desktop Pills) */}
+            <div className="hidden lg:flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
+              {MEAT_FILTERS.map((m) => {
+                const count = meatCounts[m.id] ?? 0;
+                const isSelected = selectedMeat === m.id;
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => setSelectedMeat(m.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 shrink-0 ${
+                      isSelected
+                        ? "bg-emerald-500 text-black font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)]"
+                        : "bg-white/[0.04] border border-white/10 text-muted-foreground hover:border-emerald-500/40 hover:text-foreground"
+                    }`}
+                  >
+                    <span>{m.icon}</span>
+                    <span>{m.label}</span>
+                    <span className={`text-[0.65rem] px-1.5 py-0.2 rounded-full ${isSelected ? "bg-black/20 text-black" : "bg-white/10 text-white/70"}`}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Sort & Filter Controls */}
+            <div className="flex items-center gap-1.5 sm:gap-2 self-end md:self-auto shrink-0">
+              {/* Sort Selector (Custom Dropdown — not native select) */}
+              <div className="relative" ref={sortDropdownRef}>
+                <button
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="flex items-center gap-1.5 sm:gap-2 bg-[#111116] border border-white/15 text-[0.68rem] sm:text-xs text-foreground font-mono rounded-md sm:rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 cursor-pointer hover:border-white/30 transition-colors"
+                >
+                  <ArrowUpDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground shrink-0" />
+                  <span className="truncate max-w-[100px] sm:max-w-none">{SORT_OPTIONS.find(o => o.id === sortBy)?.label}</span>
+                  <ChevronDown className={`w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground shrink-0 transition-transform ${showSortDropdown ? "rotate-180" : ""}`} />
+                </button>
+                {showSortDropdown && (
+                  <div className="absolute right-0 top-full mt-1 z-50 bg-[#111116] border border-white/15 rounded-md sm:rounded-lg shadow-2xl overflow-hidden min-w-[160px]">
+                    {SORT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.id}
+                        onClick={() => { setSortBy(opt.id); setShowSortDropdown(false); }}
+                        className={`w-full text-left px-3 py-1.5 sm:py-2 text-[0.68rem] sm:text-xs font-mono transition-colors flex items-center gap-2 ${
+                          sortBy === opt.id
+                            ? "bg-emerald-500/20 text-emerald-300 font-semibold"
+                            : "text-foreground/80 hover:bg-white/5 hover:text-foreground"
+                        }`}
                       >
-                        <div>
-                          <div className="flex justify-between items-start gap-3 mb-1.5">
-                            <h3 className="text-sm sm:text-base font-display group-hover:text-primary transition-colors font-medium">
-                              {item.name}
-                            </h3>
-                            <span className="font-mono text-xs sm:text-sm shrink-0 text-primary font-bold">{item.price}</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground leading-relaxed mb-2.5">{item.desc}</p>
-                        </div>
-                        {item.tag && (
-                          <div>
-                            <span className="inline-block text-[0.6rem] font-mono uppercase tracking-widest text-emerald-300 border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-0.5 rounded font-semibold">
-                              {item.tag}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                        {sortBy === opt.id && <Check className="w-3 h-3 text-emerald-400 shrink-0" />}
+                        <span className={sortBy === opt.id ? "" : "pl-5"}>{opt.label}</span>
+                      </button>
                     ))}
                   </div>
+                )}
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="hidden sm:flex items-center border border-white/15 rounded-lg bg-[#111116] p-0.5">
+                <button
+                  onClick={() => setViewMode("categorized")}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${
+                    effectiveViewMode === "categorized" ? "bg-primary text-black font-bold" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  title="Grouped by Category"
+                >
+                  <ListFilter className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-1.5 rounded-md text-xs transition-colors ${
+                    effectiveViewMode === "grid" ? "bg-primary text-black font-bold" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  title="Unified Grid View"
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Mobile Filter Toggle Button */}
+              <button
+                onClick={() => setShowMobileFilters(!showMobileFilters)}
+                className={`lg:hidden flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg text-[0.68rem] sm:text-xs font-mono border transition-colors ${
+                  showMobileFilters || selectedMeat !== "all" || selectedPriceRange !== "all"
+                    ? "bg-emerald-500/20 border-emerald-500 text-emerald-300"
+                    : "bg-[#111116] border-white/15 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <SlidersHorizontal className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span>Filters</span>
+              </button>
+            </div>
+          </div>
+
+          {/* SECOND ROW: Mobile / Expandable Price Range & Protein Filters */}
+          <div className={`${showMobileFilters ? "flex" : "hidden lg:flex"} flex-wrap items-center justify-between gap-2 sm:gap-3 pt-1 border-t border-white/5`}>
+            {/* Mobile Protein Pills (if on small screen) */}
+            <div className="flex lg:hidden items-center gap-1 overflow-x-auto scrollbar-none w-full py-0.5">
+              {MEAT_FILTERS.map((m) => {
+                const isSelected = selectedMeat === m.id;
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => setSelectedMeat(m.id)}
+                    className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[0.65rem] sm:text-xs font-mono transition-all flex items-center gap-0.5 sm:gap-1 shrink-0 ${
+                      isSelected
+                        ? "bg-emerald-500 text-black font-bold"
+                        : "bg-white/[0.04] border border-white/10 text-muted-foreground"
+                    }`}
+                  >
+                    <span className="text-[0.7rem] sm:text-sm">{m.icon}</span>
+                    <span>{m.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Price Range Filter Pills */}
+            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto scrollbar-none">
+              <span className="text-[0.68rem] font-mono uppercase tracking-wider text-muted-foreground mr-1 shrink-0 hidden sm:inline">Price:</span>
+              {PRICE_FILTERS.map((p) => {
+                const isSelected = selectedPriceRange === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => setSelectedPriceRange(p.id)}
+                    className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[0.62rem] sm:text-[0.72rem] font-mono transition-all shrink-0 ${
+                      isSelected
+                        ? "bg-emerald-400/20 border border-emerald-400 text-emerald-300 font-semibold"
+                        : "bg-white/[0.03] border border-white/10 text-muted-foreground hover:text-foreground hover:border-white/20"
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Result Stats & Reset Button */}
+            <div className="flex items-center gap-2 sm:gap-3 text-[0.65rem] sm:text-xs font-mono ml-auto">
+              <span className="text-muted-foreground">
+                <strong className="text-primary font-bold">{sortedDishes.length}</strong> of {MENU_DISHES.length} dishes
+              </span>
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-[0.65rem] sm:text-xs font-mono underline underline-offset-4"
+                >
+                  <RotateCcw className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                  Reset
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* THIRD ROW: Horizontal Scrollable Category Pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-none py-0.5 sm:py-1 border-t border-white/5">
+            <button
+              onClick={() => handleCategoryClick("all")}
+              className={`shrink-0 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-md sm:rounded-lg text-[0.65rem] sm:text-xs font-mono transition-all uppercase tracking-wider flex items-center gap-1 sm:gap-1.5 ${
+                selectedCategory === "all"
+                  ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-400 text-black font-bold shadow-[0_0_15px_rgba(16,185,129,0.35)]"
+                  : "bg-white/[0.04] border border-white/10 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+              }`}
+            >
+              <UtensilsCrossed className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>All ({MENU_DISHES.length})</span>
+            </button>
+
+            {CATEGORY_ORDER.map((catName) => {
+              const count = MENU_DISHES.filter((d) => d.category === catName).length;
+              const isSelected = selectedCategory === catName;
+              return (
+                <button
+                  key={catName}
+                  onClick={() => handleCategoryClick(catName)}
+                  className={`shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg text-[0.62rem] sm:text-xs font-mono transition-all whitespace-nowrap flex items-center gap-1 sm:gap-1.5 ${
+                    isSelected
+                      ? "bg-emerald-500 text-black font-bold shadow-[0_0_15px_rgba(16,185,129,0.35)]"
+                      : "bg-white/[0.03] border border-white/10 text-muted-foreground hover:border-emerald-500/40 hover:text-foreground"
+                  }`}
+                >
+                  <span>{catName}</span>
+                  <span className={`text-[0.58rem] sm:text-[0.65rem] px-1 sm:px-1.5 py-0.2 rounded-full ${isSelected ? "bg-black/25 text-black" : "bg-white/10 text-white/60"}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* DISHES PRESENTATION SECTION */}
+      <section className="min-h-[60vh] py-6 sm:py-10 md:py-16 px-3 sm:px-6 md:px-8 max-w-7xl mx-auto">
+        {/* NO RESULTS FOUND STATE */}
+        {sortedDishes.length === 0 ? (
+          <div className="text-center py-20 bg-[#111116] border border-white/10 rounded-2xl p-8 max-w-xl mx-auto shadow-2xl">
+            <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+              🔍
+            </div>
+            <h3 className="text-2xl font-display mb-2">No dishes match your filter</h3>
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+              We couldn't find any dishes matching "{searchQuery || selectedCategory || selectedMeat}". Try clearing your filters or search for something else.
+            </p>
+            <button
+              onClick={resetFilters}
+              className="px-6 py-2.5 bg-gradient-to-r from-emerald-400 to-teal-400 text-black font-mono text-xs uppercase tracking-widest rounded-lg font-bold hover:brightness-110 shadow-lg shadow-emerald-500/20"
+            >
+              View Full Menu ({MENU_DISHES.length} dishes)
+            </button>
+          </div>
+        ) : effectiveViewMode === "categorized" ? (
+          /* CATEGORIZED VIEW: Grouped by Category with Section Banners */
+          <div className="space-y-16 md:space-y-20">
+            {groupedSections.map((section) => (
+              <div key={section.category} className="border-t border-white/10 pt-4 sm:pt-8">
+                {/* Category Header */}
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5 sm:gap-3 mb-3 sm:mb-6">
+                  <div>
+                    <div className="inline-flex items-center gap-1 sm:gap-1.5 text-emerald-400 font-mono text-[0.58rem] sm:text-xs uppercase tracking-widest mb-0.5 sm:mb-1">
+                      <Flame className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-400" />
+                      <span>Authentic Non-Veg</span>
+                    </div>
+                    <h2 className="text-lg sm:text-3xl font-display font-semibold text-foreground">
+                      {section.category}
+                    </h2>
+                    <p className="hidden sm:block text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl">
+                      {section.blurb}
+                    </p>
+                  </div>
+                  <span className="font-mono text-[0.58rem] sm:text-xs text-muted-foreground shrink-0 bg-white/5 border border-white/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full self-start sm:self-auto">
+                    {section.items.length} {section.items.length === 1 ? "dish" : "dishes"}
+                  </span>
+                </div>
+
+                {/* Items Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
+                  {section.items.map((dish) => (
+                    <DishCard key={dish.id} dish={dish} />
+                  ))}
                 </div>
               </div>
             ))}
+          </div>
+        ) : (
+          /* UNIFIED GRID VIEW: When sorted or cross-filtered by protein/price */
+          <div>
+            <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-white/10">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span className="text-[0.65rem] sm:text-xs font-mono uppercase tracking-wider text-muted-foreground">Showing:</span>
+                <span className="text-xs sm:text-sm font-display font-semibold text-primary">
+                  {selectedCategory === "all" ? "All Non-Veg Dishes" : selectedCategory}
+                </span>
+                {selectedMeat !== "all" && (
+                  <span className="text-[0.65rem] sm:text-xs font-mono bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full capitalize">
+                    {selectedMeat}
+                  </span>
+                )}
+                {selectedPriceRange !== "all" && (
+                  <span className="text-[0.65rem] sm:text-xs font-mono bg-white/10 border border-white/15 text-white/80 px-2 py-0.5 rounded-full">
+                    {PRICE_FILTERS.find((p) => p.id === selectedPriceRange)?.label}
+                  </span>
+                )}
+              </div>
+              <span className="font-mono text-[0.65rem] sm:text-xs text-muted-foreground shrink-0">
+                {sortedDishes.length} {sortedDishes.length === 1 ? "dish" : "dishes"}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
+              {sortedDishes.map((dish) => (
+                <DishCard key={dish.id} dish={dish} showCategoryBadge />
+              ))}
+            </div>
           </div>
         )}
       </section>
@@ -659,32 +590,131 @@ function ExplorePage() {
       {/* PHOTO GALLERY */}
       <PhotoGallery />
 
-      {/* ORDER STRIP */}
-      <section className="bg-[#070709] border-t border-white/10 text-foreground py-20 px-6 relative">
+      {/* BOTTOM CTA BAR */}
+      <section className="bg-[#070709] border-t border-white/10 text-foreground py-12 sm:py-16 px-4 sm:px-6 relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.06),_transparent_70%)] pointer-events-none" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+        <div className="max-w-6xl mx-auto px-2 sm:px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
           <div>
-            <h3 className="text-2xl md:text-3xl font-display mb-1">Hungry now?</h3>
-            <p className="text-sm text-muted-foreground">Takeaway, delivery, and drive-through available all day in Hosur.</p>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-display mb-1 text-center md:text-left">Craving authentic non-veg?</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">Freshly prepared, authentic flavors in Hosur. Fast takeaway & dine-in all day.</p>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-2.5 sm:gap-3 justify-center">
             <a
               href="tel:06380795502"
-              className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-400 text-black font-semibold px-7 py-3.5 font-mono text-xs uppercase tracking-widest hover:shadow-[0_0_25px_rgba(16,185,129,0.35)] hover:brightness-110 active:scale-95 transition-all rounded-sm"
+              className="bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-400 text-black font-bold px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-[0.7rem] sm:text-xs uppercase tracking-widest hover:shadow-[0_0_25px_rgba(16,185,129,0.35)] hover:brightness-110 active:scale-95 transition-all rounded-lg"
             >
-              Call 063807 95502
+              ☎ Call 063807 95502
             </a>
             <a
               href="https://maps.app.goo.gl/P5HDab6jb3RAdUz28"
               target="_blank"
               rel="noreferrer"
-              className="border border-white/20 bg-white/[0.03] backdrop-blur-md px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-foreground hover:border-primary hover:text-primary hover:bg-white/[0.08] transition-all rounded-sm"
+              className="border border-white/20 bg-white/[0.04] backdrop-blur-md px-5 sm:px-6 py-2.5 sm:py-3 font-mono text-[0.7rem] sm:text-xs uppercase tracking-widest text-foreground hover:border-primary hover:text-primary transition-all rounded-lg"
             >
-              Directions
+              📍 Get Directions
             </a>
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+// INDIVIDUAL DISH CARD COMPONENT (COMPACT 2-COL ON MOBILE, EXPANDED ON DESKTOP)
+function DishCard({ dish, showCategoryBadge = false }: { dish: DishItem; showCategoryBadge?: boolean }) {
+  const [imgError, setImgError] = useState(false);
+
+  // Meat icon & color
+  const meatMeta: Record<string, { icon: string; label: string; color: string }> = {
+    chicken: { icon: "🍗", label: "Chicken", color: "text-amber-400 border-amber-400/30 bg-amber-500/10" },
+    mutton: { icon: "🥩", label: "Mutton", color: "text-red-400 border-red-400/30 bg-red-500/10" },
+    fish: { icon: "🐟", label: "Fish", color: "text-cyan-400 border-cyan-400/30 bg-cyan-500/10" },
+    prawn: { icon: "🦐", label: "Prawn", color: "text-orange-400 border-orange-400/30 bg-orange-500/10" },
+    crab: { icon: "🦀", label: "Crab", color: "text-rose-400 border-rose-400/30 bg-rose-500/10" },
+    egg: { icon: "🥚", label: "Egg", color: "text-yellow-400 border-yellow-400/30 bg-yellow-500/10" },
+    seafood: { icon: "🐟", label: "Seafood", color: "text-teal-400 border-teal-400/30 bg-teal-500/10" },
+    nonveg: { icon: "🍖", label: "Non-Veg", color: "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" },
+  };
+
+  const meta = meatMeta[dish.meat] || meatMeta.nonveg;
+
+  return (
+    <article className="group bg-[#111116] border border-white/10 rounded-lg sm:rounded-xl p-2 sm:p-3.5 hover:border-emerald-500/50 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between">
+      <div>
+        {/* Photo Container */}
+        <div className="aspect-[4/3] overflow-hidden mb-1.5 sm:mb-3 rounded-md sm:rounded-lg bg-white/5 border border-white/5 relative">
+          {!imgError && dish.img ? (
+            <img
+              src={dish.img}
+              alt={dish.name}
+              loading="lazy"
+              onError={() => setImgError(true)}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-95"
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#16161f] to-[#0c0c10] text-muted-foreground p-2 sm:p-4 text-center">
+              <span className="text-xl sm:text-3xl mb-0.5 sm:mb-1">{meta.icon}</span>
+              <span className="text-[0.55rem] sm:text-[0.65rem] font-mono text-muted-foreground uppercase tracking-widest line-clamp-1">{dish.name}</span>
+            </div>
+          )}
+
+          {/* Non-Veg Mark (Red Triangle in Square) */}
+          <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black/85 backdrop-blur-md border border-red-500/40 p-0.5 rounded-sm shadow-md" title="Non-Vegetarian">
+            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 border border-red-500 flex items-center justify-center p-0.5">
+              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-red-500" />
+            </div>
+          </div>
+
+          {/* Specialty Tag if present */}
+          {dish.tag && (
+            <span className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-black/85 backdrop-blur-md text-emerald-300 border border-emerald-400/40 text-[0.5rem] sm:text-[0.6rem] font-mono uppercase tracking-wider px-1 sm:px-2 py-0.5 rounded font-semibold shadow-md">
+              {dish.tag}
+            </span>
+          )}
+
+          {/* Meat Pill bottom right */}
+          <span className={`absolute bottom-1 right-1 sm:bottom-2 sm:right-2 backdrop-blur-md text-[0.5rem] sm:text-[0.6rem] font-mono uppercase tracking-wider px-1 sm:px-2 py-0.5 rounded border shadow-md flex items-center gap-0.5 sm:gap-1 ${meta.color}`}>
+            <span>{meta.icon}</span>
+            <span className="hidden sm:inline">{meta.label}</span>
+          </span>
+        </div>
+
+        {/* Category Badge if in grid view */}
+        {showCategoryBadge && (
+          <div className="mb-1 sm:mb-1.5">
+            <span className="text-[0.52rem] sm:text-[0.62rem] font-mono text-muted-foreground bg-white/5 border border-white/10 px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded inline-block truncate max-w-full">
+              {dish.category}
+            </span>
+          </div>
+        )}
+
+        {/* Dish Title & Price (Stacked cleanly on mobile to prevent squishing) */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-0.5 sm:gap-2 mb-1 sm:mb-1.5">
+          <h3 className="text-[0.76rem] sm:text-sm font-display font-medium text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[1.9rem] sm:min-h-0">
+            {dish.name}
+          </h3>
+          <span className="font-mono text-xs sm:text-base text-emerald-400 font-bold shrink-0">
+            {dish.price}
+          </span>
+        </div>
+
+        {/* Description (desktop only for compact clean mobile layout) */}
+        <p className="hidden sm:block text-[0.72rem] text-muted-foreground line-clamp-2 leading-relaxed mb-2">
+          {dish.desc}
+        </p>
+      </div>
+
+      {/* Quick Action Strip */}
+      <div className="pt-1 sm:pt-2 border-t border-white/5 flex items-center justify-between text-[0.56rem] sm:text-[0.65rem] font-mono text-muted-foreground">
+        <span className="text-white/40 truncate hidden sm:inline">Dine-in · Takeaway</span>
+        <span className="text-white/40 sm:hidden">Non-Veg</span>
+        <a
+          href="tel:06380795502"
+          className="text-emerald-400 hover:text-emerald-300 font-semibold uppercase tracking-wider flex items-center gap-0.5 hover:underline ml-auto"
+        >
+          Order →
+        </a>
+      </div>
+    </article>
   );
 }

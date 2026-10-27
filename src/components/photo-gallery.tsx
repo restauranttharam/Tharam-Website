@@ -64,12 +64,12 @@ export function PhotoGallery() {
       </div>
 
       {/* Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-6">
         {filteredPhotos.map((item, idx) => (
           <div
             key={item.id}
             onClick={() => setSelected(idx)}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-[#111116] shadow-lg hover:border-primary/50 transition-all duration-500"
+            className="group relative cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-[#111116] shadow-lg hover:border-primary/50 transition-all duration-500"
           >
             <div className="aspect-[4/3] overflow-hidden bg-white/5">
               <img
@@ -79,11 +79,11 @@ export function PhotoGallery() {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108 brightness-95"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-              <span className="text-primary font-mono text-[0.62rem] uppercase tracking-widest mb-1">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5 sm:p-5">
+              <span className="text-primary font-mono text-[0.55rem] sm:text-[0.62rem] uppercase tracking-widest mb-0.5 sm:mb-1">
                 {item.category}
               </span>
-              <h3 className="text-lg font-display text-white">{item.title}</h3>
+              <h3 className="text-xs sm:text-lg font-display text-white line-clamp-1">{item.title}</h3>
             </div>
           </div>
         ))}

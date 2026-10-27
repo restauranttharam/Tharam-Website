@@ -46,7 +46,7 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5">
             {[
               {
                 img: "/dishes/Tharam Spl Mutton Biryani.png",
@@ -77,26 +77,47 @@ function HomePage() {
                 badge: "Fresh Catch",
               },
             ].map((d) => (
-              <article key={d.name} className="group bg-[#111116] border border-white/10 rounded-lg p-4 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between">
+              <article key={d.name} className="group bg-[#111116] border border-white/10 rounded-lg sm:rounded-xl p-2 sm:p-4 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-between">
                 <div>
-                  <div className="aspect-[4/3] overflow-hidden mb-4 rounded-md bg-white/5 border border-white/5 relative">
+                  <div className="aspect-[4/3] overflow-hidden mb-2 sm:mb-4 rounded-md bg-white/5 border border-white/5 relative">
                     <img
                       src={d.img}
                       alt={d.name}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 brightness-95"
                     />
+                    {/* Non-veg mark */}
+                    <div className="absolute top-1.5 left-1.5 bg-black/85 backdrop-blur-md border border-red-500/40 p-0.5 rounded-sm shadow-md" title="Non-Vegetarian">
+                      <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 border border-red-500 flex items-center justify-center p-0.5">
+                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-red-500" />
+                      </div>
+                    </div>
                     {d.badge && (
-                      <span className="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 text-[0.58rem] font-mono uppercase tracking-widest px-2 py-0.5 rounded-sm font-semibold">
+                      <span className="absolute top-1.5 right-1.5 bg-black/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 text-[0.52rem] sm:text-[0.58rem] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-sm font-semibold shadow-md">
                         {d.badge}
                       </span>
                     )}
                   </div>
-                  <div className="flex justify-between items-baseline mb-1.5">
-                    <h3 className="text-base font-display group-hover:text-primary transition-colors">{d.name}</h3>
-                    <span className="font-mono text-xs sm:text-sm text-primary font-bold">{d.price}</span>
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-0.5 sm:gap-1 mb-1 sm:mb-1.5">
+                    <h3 className="text-xs sm:text-base font-display font-medium text-foreground group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[1.9rem] sm:min-h-0">
+                      {d.name}
+                    </h3>
+                    <span className="font-mono text-xs sm:text-sm text-emerald-400 font-bold shrink-0">
+                      {d.price}
+                    </span>
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
+                  <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                    {d.desc}
+                  </p>
+                </div>
+                <div className="pt-1.5 sm:pt-2 border-t border-white/5 flex items-center justify-between text-[0.58rem] sm:text-[0.65rem] font-mono text-muted-foreground mt-1.5 sm:mt-2">
+                  <span className="text-white/40 hidden sm:inline">Dine-in · Takeaway</span>
+                  <Link
+                    to="/explore"
+                    className="text-emerald-400 hover:text-emerald-300 font-semibold uppercase tracking-wider flex items-center gap-0.5 hover:underline ml-auto"
+                  >
+                    View →
+                  </Link>
                 </div>
               </article>
             ))}
